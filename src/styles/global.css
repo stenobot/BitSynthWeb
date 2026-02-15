@@ -1,0 +1,92 @@
+@font-face {
+  font-family: 'Early GameBoy';
+  src: url('/fonts/Early GameBoy.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  /* Colors matching BitSynth UWP theme */
+  --color-bg: #1a1a1a;
+  --color-bg-stripe: #252525;
+  --color-accent: #80b027;
+  --color-accent-dark: #648a1e;
+  --color-text: #ffffff;
+  --color-text-muted: #888888;
+  --color-white-key: #ffffff;
+  --color-white-key-pressed: var(--color-accent);
+  --color-black-key: #1a1a1a;
+  --color-black-key-pressed: var(--color-accent);
+  --color-control-bg: #333333;
+  --color-control-border: #444444;
+
+  /* Sizing */
+  --white-key-width: 50px;
+  --white-key-height: 200px;
+  --black-key-width: 36px;
+  --black-key-height: 110px;
+  --control-height: 200px;
+
+  /* Font */
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-bg);
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent,
+    transparent 10px,
+    var(--color-bg-stripe) 10px,
+    var(--color-bg-stripe) 20px
+  );
+}
+
+/* Disable text selection and touch callouts for interactive elements */
+button, .key, .slider {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Responsive breakpoints matching UWP */
+@media (max-width: 600px) {
+  :root {
+    --white-key-width: 40px;
+    --white-key-height: 140px;
+    --black-key-width: 28px;
+    --black-key-height: 85px;
+    --control-height: 160px;
+  }
+}
+
+@media (min-width: 1300px) {
+  :root {
+    --white-key-width: 60px;
+    --white-key-height: 200px;
+    --black-key-width: 42px;
+    --black-key-height: 120px;
+  }
+}
+
+@media (min-width: 1680px) {
+  :root {
+    --white-key-width: 70px;
+    --white-key-height: 210px;
+    --black-key-width: 48px;
+    --black-key-height: 130px;
+  }
+}
