@@ -1,0 +1,36 @@
+.preset-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.preset-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  background: var(--color-control-bg);
+  color: var(--color-text);
+  font-family: 'Early GameBoy', monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.preset-button:hover {
+  background: var(--color-control-border);
+}
+
+.preset-button--active {
+  background: var(--color-accent);
+  color: #000;
+}
+
+@media (max-width: 600px) {
+  .preset-button {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+}

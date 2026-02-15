@@ -1,0 +1,55 @@
+.keyboard {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 20px 20px;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.keyboard-keys {
+  position: relative;
+  height: var(--white-key-height);
+  overflow: hidden;
+  /* Default (<600px): 40px keys, 11 white keys = 440px, ends on B2 */
+  width: calc(11 * var(--white-key-width));
+}
+
+/* 600-949px: 50px keys, 11 white keys = 550px, ends on B2 */
+@media (min-width: 600px) {
+  .keyboard-keys {
+    width: calc(11 * var(--white-key-width));
+  }
+}
+
+/* 950-1299px: 50px keys, 18 white keys = 900px, ends on B3 */
+@media (min-width: 950px) {
+  .keyboard-keys {
+    width: calc(18 * var(--white-key-width));
+  }
+}
+
+/* 1300-1439px: 60px keys, 21 white keys = 1260px, ends on E4 */
+@media (min-width: 1300px) {
+  .keyboard-keys {
+    width: calc(21 * var(--white-key-width));
+  }
+}
+
+/* 1440-1679px: 60px keys, 23 white keys = 1380px, ends on G4 (all keys) */
+@media (min-width: 1440px) {
+  .keyboard-keys {
+    width: calc(23 * var(--white-key-width));
+  }
+}
+
+/* 1680px+: 70px keys, 23 white keys = 1610px, ends on G4 (all keys) */
+@media (min-width: 1680px) {
+  .keyboard-keys {
+    width: calc(23 * var(--white-key-width));
+  }
+}

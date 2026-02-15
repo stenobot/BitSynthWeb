@@ -1,0 +1,33 @@
+.key {
+  position: absolute;
+  top: 0;
+  border-radius: 0 0 4px 4px;
+  transition: background-color 0.05s ease-out;
+  pointer-events: none; /* Let parent handle pointer events */
+}
+
+.key--white {
+  width: var(--white-key-width);
+  height: var(--white-key-height);
+  background-color: var(--color-white-key);
+  border: 1px solid #ccc;
+  z-index: 1;
+}
+
+.key--white.key--pressed {
+  background-color: var(--color-white-key-pressed);
+  border-color: var(--color-accent-dark);
+}
+
+.key--black {
+  width: var(--black-key-width);
+  height: var(--black-key-height);
+  background-color: var(--color-black-key);
+  border: 1px solid #333;
+  z-index: 2;
+}
+
+.key--black.key--pressed {
+  background-color: var(--color-black-key-pressed);
+  border-color: transparent;
+}
