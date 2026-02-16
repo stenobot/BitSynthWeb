@@ -113,6 +113,7 @@ export function ControlPanel() {
       <div className="control-panel__section">
         <h2>8-Bit</h2>
         <div className="sound-banks">
+          {/* TODO: Remove loopDisabled for p1/p2 once loop sample files are fixed */}
           {SOUND_BANKS.map((bankId) => (
             <SoundBankControl
               key={bankId}
@@ -120,6 +121,7 @@ export function ControlPanel() {
               volume={soundBanks[bankId].volume}
               loop={soundBanks[bankId].loop}
               pitch={soundBanks[bankId].pitch}
+              loopDisabled={bankId === 'p1' || bankId === 'p2'}
               onVolumeChange={(v) => setSoundBankVolume(bankId, v)}
               onLoopChange={(l) => setSoundBankLoop(bankId, l)}
               onPitchChange={(p) => setSoundBankPitch(bankId, p)}
