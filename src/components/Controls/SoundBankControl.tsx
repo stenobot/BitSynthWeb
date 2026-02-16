@@ -1,6 +1,8 @@
 import type { VolumeLevel } from '../../types'
 import './SoundBankControl.css'
 
+const BASE_URL = import.meta.env.BASE_URL
+
 interface SoundBankControlProps {
   label: string
   volume: VolumeLevel
@@ -32,7 +34,7 @@ export function SoundBankControl({
     onVolumeChange(VOLUME_CYCLE[nextIndex])
   }
 
-  const volumeSrc = volume === 'off' ? '/images/speaker-off.svg' : volume === 'low' ? '/images/speaker-low.svg' : '/images/speaker-high.svg'
+  const volumeSrc = volume === 'off' ? `${BASE_URL}images/speaker-off.svg` : volume === 'low' ? `${BASE_URL}images/speaker-low.svg` : `${BASE_URL}images/speaker-high.svg`
 
   return (
     <div className={`sound-bank ${volume !== 'off' ? 'sound-bank--active' : ''}`}>
@@ -52,7 +54,7 @@ export function SoundBankControl({
         title={loop ? 'Loop: On' : 'Loop: Off'}
         disabled={volume === 'off' || loopDisabled}
       >
-        <img src="/images/loop.svg" alt="Loop" className="loop-icon" />
+        <img src={`${BASE_URL}images/loop.svg`} alt="Loop" className="loop-icon" />
       </button>
 
       <div className="sound-bank__pitch">

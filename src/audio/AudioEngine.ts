@@ -3,6 +3,8 @@ import { NOTE_NAMES, SOUND_BANKS, VOLUME_GAINS } from '../types'
 import { EchoEffect } from './effects/EchoEffect'
 import { ReverbEffect } from './effects/ReverbEffect'
 
+const BASE_URL = import.meta.env.BASE_URL
+
 export class AudioEngine {
   private context: AudioContext | null = null
   private masterGain: GainNode | null = null
@@ -100,7 +102,7 @@ export class AudioEngine {
 
         // Load normal sample
         try {
-          const normalUrl = `/samples/${bankId}-${noteName}.ogg`
+          const normalUrl = `${BASE_URL}samples/${bankId}-${noteName}.ogg`
           const normalBuffer = await this.loadAudioFile(normalUrl)
           if (normalBuffer) {
             this.sampleBuffers.set(`${bankId}-${noteName}`, normalBuffer)
@@ -113,7 +115,7 @@ export class AudioEngine {
 
         // Load loop sample
         try {
-          const loopUrl = `/samples/${bankId}-${noteName}-loop.ogg`
+          const loopUrl = `${BASE_URL}samples/${bankId}-${noteName}-loop.ogg`
           const loopBuffer = await this.loadAudioFile(loopUrl)
           if (loopBuffer) {
             const shouldCrossFade = bankId === 'p1' || bankId === 'p2'

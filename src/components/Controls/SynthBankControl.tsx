@@ -8,6 +8,8 @@ import {
 } from '../../types'
 import './SynthBankControl.css'
 
+const BASE_URL = import.meta.env.BASE_URL
+
 interface SynthBankControlProps {
   synthBank: SynthBankState
   onVolumeChange: (volume: VolumeLevel) => void
@@ -50,7 +52,7 @@ export function SynthBankControl({
     onWaveformChange(WAVEFORMS[nextIndex])
   }
 
-  const volumeSrc = synthBank.volume === 'off' ? '/images/speaker-off.svg' : synthBank.volume === 'low' ? '/images/speaker-low.svg' : '/images/speaker-high.svg'
+  const volumeSrc = synthBank.volume === 'off' ? `${BASE_URL}images/speaker-off.svg` : synthBank.volume === 'low' ? `${BASE_URL}images/speaker-low.svg` : `${BASE_URL}images/speaker-high.svg`
 
   return (
     <div className={`synth-bank ${synthBank.volume !== 'off' ? 'synth-bank--active' : ''}`}>
@@ -68,7 +70,7 @@ export function SynthBankControl({
           title={synthBank.loop ? 'Loop: On' : 'Loop: Off'}
           disabled={synthBank.volume === 'off'}
         >
-          <img src="/images/loop.svg" alt="Loop" className="loop-icon" />
+          <img src={`${BASE_URL}images/loop.svg`} alt="Loop" className="loop-icon" />
         </button>
         <button
           className="synth-bank__waveform"
