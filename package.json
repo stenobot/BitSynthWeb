@@ -1,5 +1,6 @@
 {
   "name": "bitsynth-web",
+  "homepage": "https://stenobot.github.io/BitSynthWeb/",
   "private": true,
   "version": "0.0.1",
   "type": "module",
