@@ -13,22 +13,14 @@ const SYNTH_OFF: SynthBankState = {
 // Presets ported from BitSynthPlus\Services\PresetInitializer.cs
 export const PRESETS: Preset[] = [
   {
-    name: 'Game Cowboy',
+    name: 'GameBoy CowMan',
     soundBanks: {
       p1: { volume: 'high', loop: false, pitch: 1.0 },
-      p2: { volume: 'off', loop: false, pitch: 1.0 },
+      p2: { volume: 'high', loop: false, pitch: 1.5 },
       w1: { volume: 'off', loop: false, pitch: 1.0 },
       w2: { volume: 'off', loop: false, pitch: 1.0 }
     },
-    synthBank: {
-      volume: 'low',
-      loop: false,
-      waveform: 'square',
-      filterCutoff: 3000,
-      attack: 0.02,
-      release: 0.3,
-      length: 0.8
-    },
+    synthBank: SYNTH_OFF,
     effects: {
       echo: { enabled: false, delay: 150, feedback: 0 },
       reverb: { enabled: false, decayTime: 1, density: 1, gain: 1 }
