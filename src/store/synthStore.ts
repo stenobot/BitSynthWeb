@@ -7,6 +7,7 @@ interface AppState {
   // Loading state
   isLoading: boolean
   loadProgress: number
+  loadingBankLabel: string
 
   // Master controls
   masterVolume: number // 0-11
@@ -30,6 +31,7 @@ interface AppState {
   // Actions
   setLoading: (loading: boolean) => void
   setLoadProgress: (progress: number) => void
+  setLoadingBankLabel: (label: string) => void
   setMasterVolume: (volume: number) => void
   setSoundBankVolume: (bank: SoundBankId, volume: VolumeLevel) => void
   setSoundBankLoop: (bank: SoundBankId, loop: boolean) => void
@@ -60,6 +62,7 @@ export const useSynthStore = create<AppState>()(
     // Initial state matching UWP defaults (Preset 1: "Default")
     isLoading: true,
     loadProgress: 0,
+    loadingBankLabel: '',
     masterVolume: 5,
     activePreset: 0,
     displayMessage: 'Preset: Game Cowboy',
@@ -91,6 +94,7 @@ export const useSynthStore = create<AppState>()(
     // Actions
     setLoading: (loading) => set({ isLoading: loading }),
     setLoadProgress: (progress) => set({ loadProgress: progress }),
+    setLoadingBankLabel: (label) => set({ loadingBankLabel: label }),
     setMasterVolume: (volume) => set({ masterVolume: volume, displayMessage: `Master Vol: ${volume}` }),
 
     setSoundBankVolume: (bank, volume) => set((state) => ({

@@ -38,7 +38,7 @@ export class AudioEngine {
     length: 1.2
   }
 
-  async initialize(onProgress?: (loaded: number, total: number) => void): Promise<void> {
+  async initialize(onProgress?: (loaded: number, total: number) => void, onBankStart?: (bank: string) => void): Promise<void> {
     this.context = new AudioContext({ latencyHint: 'interactive' })
 
     // Create master gain
@@ -87,16 +87,18 @@ export class AudioEngine {
     this.reverbEffect.setEnabled(false)
 
     // Load OGG samples
-    await this.loadSamples(onProgress)
+    await this.loadSamples(onProgress, onBankStart)
   }
 
-  private async loadSamples(onProgress?: (loaded: number, total: number) => void): Promise<void> {
+  private async loadSamples(onProgress?: (loaded: number, total: number) => void, onBankStart?: (bank: string) => void): Promise<void> {
     if (!this.context) return
 
     const total = SOUND_BANKS.length * NOTE_NAMES.length * 2
     let loaded = 0
 
     for (const bankId of SOUND_BANKS) {
+      onBankStart?.(bankId.toUpperCase())
+      
       for (let noteIndex = 0; noteIndex < NOTE_NAMES.length; noteIndex++) {
         const noteName = NOTE_NAMES[noteIndex]
 

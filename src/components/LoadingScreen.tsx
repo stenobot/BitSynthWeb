@@ -3,6 +3,7 @@ import './LoadingScreen.css'
 
 export function LoadingScreen() {
   const loadProgress = useSynthStore((state) => state.loadProgress)
+  const loadingBankLabel = useSynthStore((state) => state.loadingBankLabel)
 
   return (
     <div className="loading-screen">
@@ -14,7 +15,7 @@ export function LoadingScreen() {
             style={{ width: `${loadProgress}%` }}
           />
         </div>
-        <p className="loading-text">Loading samples... {loadProgress}%</p>
+        <p className="loading-text">Loading samples for {loadingBankLabel}... {loadProgress}%</p>
       </div>
     </div>
   )

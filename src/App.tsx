@@ -15,7 +15,7 @@ export function getAudioEngine(): AudioEngine | null {
 
 function App() {
   const [isReady, setIsReady] = useState(false)
-  const { isLoading, setLoading, setLoadProgress } = useSynthStore()
+  const { isLoading, setLoading, setLoadProgress, setLoadingBankLabel } = useSynthStore()
 
   // Disable right-click context menu for the entire app
   useEffect(() => {
@@ -32,9 +32,14 @@ function App() {
     const initAudio = async () => {
       try {
         audioEngine = new AudioEngine()
-        await audioEngine.initialize((loaded, total) => {
-          setLoadProgress(Math.round((loaded / total) * 100))
-        })
+        await audioEngine.initialize(
+          (loaded, total) => {
+            setLoadProgress(Math.round((loaded / total) * 100))
+          },
+          (bank) => {
+            setLoadingBankLabel(bank)
+          }
+        )
         setLoading(false)
         setIsReady(true)
       } catch (error) {
