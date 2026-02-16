@@ -27,6 +27,11 @@
   color: #000;
 }
 
+.preset-button--active:hover {
+  background: var(--color-accent);
+  color: #000;
+}
+
 @media (max-width: 600px) {
   .preset-button {
     width: 32px;

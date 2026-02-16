@@ -58,36 +58,21 @@ interface AppState {
 }
 
 export const useSynthStore = create<AppState>()(
-  subscribeWithSelector((set) => ({
-    // Initial state matching UWP defaults (Preset 1: "Default")
+  subscribeWithSelector((set) => {
+    const firstPreset = PRESETS[0]
+    
+    return {
+    // Initial state using Preset 0
     isLoading: true,
     loadProgress: 0,
     loadingBankLabel: '',
     masterVolume: 5,
     activePreset: 0,
-    displayMessage: 'Preset: Game Cowboy',
+    displayMessage: `Preset: ${firstPreset.name}`,
 
-    soundBanks: {
-      p1: { volume: 'high', loop: false, pitch: 1.0 },
-      p2: { volume: 'off', loop: false, pitch: 1.0 },
-      w1: { volume: 'off', loop: false, pitch: 1.0 },
-      w2: { volume: 'off', loop: false, pitch: 1.0 },
-    },
-
-    synthBank: {
-      volume: 'low',
-      loop: false,
-      waveform: 'square',
-      filterCutoff: 3000,
-      attack: 0.02,
-      release: 0.3,
-      length: 0.8
-    },
-
-    effects: {
-      echo: { enabled: false, delay: 150, feedback: 0 },
-      reverb: { enabled: false, decayTime: 1, density: 1, gain: 1 }
-    },
+    soundBanks: { ...firstPreset.soundBanks },
+    synthBank: { ...firstPreset.synthBank },
+    effects: { ...firstPreset.effects },
 
     pressedKeys: new Set(),
 
@@ -237,5 +222,6 @@ export const useSynthStore = create<AppState>()(
       newSet.delete(keyIndex)
       return { pressedKeys: newSet }
     }),
-  }))
+    }
+  })
 )

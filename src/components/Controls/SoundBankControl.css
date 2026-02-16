@@ -43,6 +43,12 @@
   background: var(--color-control-border);
 }
 
+.volume--low:hover,
+.volume--high:hover,
+.loop--active:hover {
+  background-color: inherit;
+}
+
 .sound-bank__volume .volume-icon {
   width: 18px;
   height: 18px;

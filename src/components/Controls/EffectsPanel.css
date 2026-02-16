@@ -43,6 +43,11 @@
   color: #000;
 }
 
+.effect__toggle--active:hover {
+  background: var(--color-accent);
+  color: #000;
+}
+
 .effect__params {
   display: flex;
   flex-direction: column;
