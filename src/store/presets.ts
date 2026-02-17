@@ -107,7 +107,7 @@ export const PRESETS: Preset[] = [
     }
   },
   {
-    name: 'Total Square',
+    name: "Asterix's Idea",
     soundBanks: {
       p1: { volume: 'off', loop: false, pitch: 1.0 },
       p2: { volume: 'off', loop: false, pitch: 1.0 },
@@ -116,16 +116,16 @@ export const PRESETS: Preset[] = [
     },
     synthBank: {
       volume: 'high',
-      loop: false,
-      waveform: 'square',
-      filterCutoff: 4000,
-      attack: 0.01,
-      release: 0.4,
+      loop: true,
+      waveform: 'sine',
+      filterCutoff: 8000,
+      attack: 0,
+      release: 0,
       length: 0.6
     },
     effects: {
-      echo: { enabled: true, delay: 200, feedback: 0.3 },
-      reverb: { enabled: false, decayTime: 1, density: 1, gain: 1 }
+      echo: { enabled: true, delay: 600, feedback: 0 },
+      reverb: { enabled: true, decayTime: 40, density: 20, gain: 12 }
     }
   },
   {
