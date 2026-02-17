@@ -39,6 +39,14 @@
   background: var(--color-control-border);
 }
 
+.synth-bank__volume.volume--low:hover {
+  background: #7b1fa2;
+}
+
+.synth-bank__volume.volume--high:hover {
+  background: #9c27b0;
+}
+
 .synth-bank__volume .volume-icon {
   width: 18px;
   height: 18px;
@@ -77,6 +85,10 @@
 
 .synth-bank__loop:hover {
   background: var(--color-control-border);
+}
+
+.synth-bank__loop.loop--active:hover {
+  background: #9c27b0;
 }
 
 .synth-bank__loop.loop--active {

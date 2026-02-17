@@ -43,10 +43,16 @@
   background: var(--color-control-border);
 }
 
-.volume--low:hover,
-.volume--high:hover,
-.loop--active:hover {
-  background-color: inherit;
+.sound-bank__volume.volume--low:hover {
+  background: #1e8a7a;
+}
+
+.sound-bank__volume.volume--high:hover {
+  background: #27b09c;
+}
+
+.sound-bank__loop.loop--active:hover {
+  background: #27b09c;
 }
 
 .sound-bank__volume .volume-icon {
