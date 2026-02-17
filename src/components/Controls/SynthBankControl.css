@@ -1,7 +1,7 @@
 .synth-bank {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 15px;
   padding: 10px;
   background: linear-gradient(135deg, #2d1f3d 0%, #1a1a2e 100%);
   border-radius: 6px;
@@ -19,7 +19,7 @@
 .synth-bank__buttons {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 14px;
 }
 
 .synth-bank__volume {
@@ -146,7 +146,8 @@
 }
 
 .synth-bank__slider {
-  width: 50px;
+  width: 80px;
+  margin-bottom: 6px;
   accent-color: #9c27b0;
 }
 

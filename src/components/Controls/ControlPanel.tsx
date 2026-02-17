@@ -105,58 +105,60 @@ export function ControlPanel() {
         <DisplayScreen />
       </div>
 
-      <div className="control-panel__section">
-        <h2>Presets</h2>
-        <PresetSelector />
-      </div>
-
-      <div className="control-panel__section">
-        <h2>8-Bit</h2>
-        <div className="sound-banks">
-          {/* TODO: Remove loopDisabled for p1/p2 once loop sample files are fixed */}
-          {SOUND_BANKS.map((bankId) => (
-            <SoundBankControl
-              key={bankId}
-              label={BANK_LABELS[bankId]}
-              volume={soundBanks[bankId].volume}
-              loop={soundBanks[bankId].loop}
-              pitch={soundBanks[bankId].pitch}
-              loopDisabled={bankId === 'p1' || bankId === 'p2'}
-              onVolumeChange={(v) => setSoundBankVolume(bankId, v)}
-              onLoopChange={(l) => setSoundBankLoop(bankId, l)}
-              onPitchChange={(p) => setSoundBankPitch(bankId, p)}
-            />
-          ))}
+      <div className="control-panel__scroll">
+        <div className="control-panel__section">
+          <h2>Presets</h2>
+          <PresetSelector />
         </div>
-      </div>
 
-      <div className="control-panel__section">
-        <h2>Synth</h2>
-        <SynthBankControl
-          synthBank={synthBank}
-          onVolumeChange={setSynthBankVolume}
-          onLoopChange={setSynthBankLoop}
-          onWaveformChange={setSynthBankWaveform}
-          onFilterCutoffChange={setSynthBankFilterCutoff}
-          onAttackChange={setSynthBankAttack}
-          onReleaseChange={setSynthBankRelease}
-          onLengthChange={setSynthBankLength}
-        />
-      </div>
+        <div className="control-panel__section">
+          <h2>8-Bit</h2>
+          <div className="sound-banks">
+            {/* TODO: Remove loopDisabled for p1/p2 once loop sample files are fixed */}
+            {SOUND_BANKS.map((bankId) => (
+              <SoundBankControl
+                key={bankId}
+                label={BANK_LABELS[bankId]}
+                volume={soundBanks[bankId].volume}
+                loop={soundBanks[bankId].loop}
+                pitch={soundBanks[bankId].pitch}
+                loopDisabled={bankId === 'p1' || bankId === 'p2'}
+                onVolumeChange={(v) => setSoundBankVolume(bankId, v)}
+                onLoopChange={(l) => setSoundBankLoop(bankId, l)}
+                onPitchChange={(p) => setSoundBankPitch(bankId, p)}
+              />
+            ))}
+          </div>
+        </div>
 
-      <div className="control-panel__section">
-        <h2>Effects</h2>
-        <EffectsPanel
-          echo={effects.echo}
-          reverb={effects.reverb}
-          onEchoEnabledChange={setEchoEnabled}
-          onEchoDelayChange={setEchoDelay}
-          onEchoFeedbackChange={setEchoFeedback}
-          onReverbEnabledChange={setReverbEnabled}
-          onReverbDecayChange={setReverbDecay}
-          onReverbDensityChange={setReverbDensity}
-          onReverbGainChange={setReverbGain}
-        />
+        <div className="control-panel__section">
+          <h2>Synth</h2>
+          <SynthBankControl
+            synthBank={synthBank}
+            onVolumeChange={setSynthBankVolume}
+            onLoopChange={setSynthBankLoop}
+            onWaveformChange={setSynthBankWaveform}
+            onFilterCutoffChange={setSynthBankFilterCutoff}
+            onAttackChange={setSynthBankAttack}
+            onReleaseChange={setSynthBankRelease}
+            onLengthChange={setSynthBankLength}
+          />
+        </div>
+
+        <div className="control-panel__section">
+          <h2>Effects</h2>
+          <EffectsPanel
+            echo={effects.echo}
+            reverb={effects.reverb}
+            onEchoEnabledChange={setEchoEnabled}
+            onEchoDelayChange={setEchoDelay}
+            onEchoFeedbackChange={setEchoFeedback}
+            onReverbEnabledChange={setReverbEnabled}
+            onReverbDecayChange={setReverbDecay}
+            onReverbDensityChange={setReverbDensity}
+            onReverbGainChange={setReverbGain}
+          />
+        </div>
       </div>
     </div>
   )

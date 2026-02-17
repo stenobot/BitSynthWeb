@@ -27,12 +27,12 @@ export const PRESETS: Preset[] = [
     }
   },
   {
-    name: 'All You Need Is Kill',
+    name: 'All You Need Is Bill',
     soundBanks: {
-      p1: { volume: 'low', loop: false, pitch: 2.0 },
+      p1: { volume: 'high', loop: false, pitch: 2.0 },
       p2: { volume: 'off', loop: false, pitch: 1.0 },
       w1: { volume: 'off', loop: false, pitch: 1.0 },
-      w2: { volume: 'high', loop: false, pitch: 1.0 }
+      w2: { volume: 'low', loop: true, pitch: 1.0 }
     },
       synthBank: {
         volume: 'low',
@@ -41,7 +41,7 @@ export const PRESETS: Preset[] = [
         filterCutoff: 2035,
         attack: 0.07,
         release: 0.66,
-        length: 1.2
+        length: 1.6
       },
     effects: {
       echo: { enabled: true, delay: 0, feedback: 0.8 },
@@ -71,7 +71,7 @@ export const PRESETS: Preset[] = [
     }
   },
   {
-    name: 'Saw Ten Thousand',
+    name: 'Saw V Thousand',
     soundBanks: {
       p1: { volume: 'off', loop: false, pitch: 1.0 },
       p2: { volume: 'off', loop: false, pitch: 1.0 },
@@ -107,7 +107,7 @@ export const PRESETS: Preset[] = [
     }
   },
   {
-    name: 'Square Pluck',
+    name: 'Total Square',
     soundBanks: {
       p1: { volume: 'off', loop: false, pitch: 1.0 },
       p2: { volume: 'off', loop: false, pitch: 1.0 },
@@ -157,7 +157,7 @@ export const PRESETS: Preset[] = [
     }
   },
   {
-    name: 'Sine Drone',
+    name: 'Sine Language',
     soundBanks: {
       p1: { volume: 'off', loop: false, pitch: 1.0 },
       p2: { volume: 'off', loop: false, pitch: 1.0 },

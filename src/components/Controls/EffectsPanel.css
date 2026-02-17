@@ -6,8 +6,8 @@
 .effect {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 8px;
+  gap: 20px;
+  padding: 10px;
   background: linear-gradient(135deg, #3d3a1f 0%, #2e2e1a 100%);
   border-radius: 4px;
   border: 1px solid #4a4a3a;
@@ -51,23 +51,23 @@
 .effect__params {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .effect__param {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .effect__param label {
   font-size: 0.65rem;
   color: var(--color-text-muted);
-  min-width: 50px;
+  width: 38px;
 }
 
 .effect__param input[type="range"] {
-  width: 60px;
+  width: 80px;
   accent-color: var(--color-accent);
 }
 

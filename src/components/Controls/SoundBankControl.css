@@ -7,7 +7,7 @@
   background: linear-gradient(135deg, #1f3d35 0%, #1a2e2e 100%);
   border-radius: 4px;
   border: 1px solid #3a4a47;
-  min-width: 60px;
+  min-width: 80px;
   opacity: 0.6;
   transition: opacity 0.15s ease;
 }
@@ -101,7 +101,7 @@
 }
 
 .pitch-slider {
-  width: 50px;
+  width: 60px;
   accent-color: #27b09c;
 }
 

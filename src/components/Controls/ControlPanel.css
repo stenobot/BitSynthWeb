@@ -1,16 +1,43 @@
 .control-panel {
   display: flex;
-  flex-wrap: wrap;
   gap: 16px;
   padding: 16px;
   background: rgba(0, 0, 0, 0.3);
   min-height: var(--control-height);
+  overflow: hidden;
+}
+
+.control-panel__scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex: 1;
+  padding-bottom: 16px;
+}
+
+.control-panel__scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.control-panel__scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.control-panel__scroll::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 3px;
+}
+
+.control-panel__scroll::-webkit-scrollbar-thumb:hover {
+  background: #888;
 }
 
 .control-panel__section {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .control-panel__section h2 {
@@ -25,6 +52,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .logo {
@@ -49,7 +77,7 @@
 }
 
 .master-volume input[type="range"] {
-  width: 80px;
+  width: 105px;
   accent-color: var(--color-accent);
 }
 
@@ -64,7 +92,7 @@
     gap: 12px;
   }
 
-  .sound-banks {
-    flex-wrap: wrap;
+  .control-panel__scroll {
+    gap: 12px;
   }
 }
