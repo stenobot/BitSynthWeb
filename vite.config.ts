@@ -22,16 +22,47 @@ export default defineConfig({
       manifest: {
         name: 'BitSynth',
         short_name: 'BitSynth',
-        description: '8-bit synthesizer',
-        theme_color: '#1a1a1a',
+        description: 'An 8-bit mobile synthesizer',
+        theme_color: '#007e11',
         background_color: '#1a1a1a',
         display: 'standalone',
         orientation: 'any',
         icons: [
           {
-            src: 'vite.svg',
-            sizes: 'any',
-            type: 'image/svg+xml',
+            src: '/public/icons/logo-144x144.png',
+            sizes: '144x144',
+            type: 'image/png',
+          },
+          {
+            src: '/public/icons/logo-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/public/icons/logo-256x256.png',
+            sizes: '256x256',
+            type: 'image/png',
+          },
+          {
+            src: '/public/icons/logo-384x384.png',
+            sizes: '384x384',
+            type: 'image/png',
+          },
+          {
+            src: '/public/icons/logo-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: '/public/icons/logo-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable', // Required for adaptive icons on Android
+          },
+          {
+            src: '/public/icons/logo-1024x1024.png',
+            sizes: '1024x1024',
+            type: 'image/png',
           },
         ],
       },
