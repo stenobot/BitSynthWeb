@@ -8,8 +8,6 @@ interface SoundBankControlProps {
   volume: VolumeLevel
   loop: boolean
   pitch: number
-  // TODO: Remove loopDisabled once P1/P2 loop sample files are fixed
-  loopDisabled?: boolean
   onVolumeChange: (volume: VolumeLevel) => void
   onLoopChange: (loop: boolean) => void
   onPitchChange: (pitch: number) => void
@@ -23,7 +21,6 @@ export function SoundBankControl({
   volume,
   loop,
   pitch,
-  loopDisabled,
   onVolumeChange,
   onLoopChange,
   onPitchChange
@@ -52,7 +49,7 @@ export function SoundBankControl({
         className={`sound-bank__loop ${loop ? 'loop--active' : ''}`}
         onClick={() => onLoopChange(!loop)}
         title={loop ? 'Loop: On' : 'Loop: Off'}
-        disabled={volume === 'off' || loopDisabled}
+        disabled={volume === 'off'}
       >
         <img src={`${BASE_URL}images/loop.svg`} alt="Loop" className="loop-icon" />
       </button>
