@@ -28,41 +28,46 @@ export default defineConfig({
         display: 'standalone',
         orientation: 'any',
         icons: [
+          // {
+          //   src: '/bitsynth-icon-144x144.png',
+          //   sizes: '144x144',
+          //   type: 'image/png',
+          // },
+          // {
+          //   src: '/bitsynth-icon-192x192.png',
+          //   sizes: '192x192',
+          //   type: 'image/png',
+          // },
+          // {
+          //   src: '/bitsynth-icon-256x256.png',
+          //   sizes: '256x256',
+          //   type: 'image/png',
+          // },
+          // {
+          //   src: '/bitsynth-icon-384x384.png',
+          //   sizes: '384x384',
+          //   type: 'image/png',
+          // },
+          // {
+          //   src: '/bitsynth-icon-512x512.png',
+          //   sizes: '512x512',
+          //   type: 'image/png',
+          // },
+          // {
+          //   src: '/bitsynth-icon-512x512.png',
+          //   sizes: '512x512',
+          //   type: 'image/png',
+          //   purpose: 'any maskable', // Required for adaptive icons on Android
+          // },
+          // {
+          //   src: '/bitsynth-icon-1024x1024.png',
+          //   sizes: '1024x1024',
+          //   type: 'image/png',
+          // },
           {
-            src: '/bitsynth-icon-144x144.png',
-            sizes: '144x144',
-            type: 'image/png',
-          },
-          {
-            src: '/bitsynth-icon-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/bitsynth-icon-256x256.png',
-            sizes: '256x256',
-            type: 'image/png',
-          },
-          {
-            src: '/bitsynth-icon-384x384.png',
-            sizes: '384x384',
-            type: 'image/png',
-          },
-          {
-            src: '/bitsynth-icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-          {
-            src: '/bitsynth-icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable', // Required for adaptive icons on Android
-          },
-          {
-            src: '/bitsynth-icon-1024x1024.png',
-            sizes: '1024x1024',
-            type: 'image/png',
+            src: 'bitsynth-icon.svg',
+            sizes: 'any',
+            type: 'image/svg+xml',
           },
         ],
       },
