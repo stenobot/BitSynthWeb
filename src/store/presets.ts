@@ -13,21 +13,21 @@ const SYNTH_OFF: SynthBankState = {
 // Presets ported from BitSynthPlus\Services\PresetInitializer.cs
 export const PRESETS: Preset[] = [
   {
-    name: 'GameBoy CowMan',
+    name: 'Supercommuter',
     soundBanks: {
-      p1: { volume: 'high', loop: false, pitch: 1.0 },
-      p2: { volume: 'high', loop: false, pitch: 1.5 },
+      p1: { volume: 'high', loop: false, pitch: 2.0 },
+      p2: { volume: 'low', loop: false, pitch: 1.0 },
       w1: { volume: 'off', loop: false, pitch: 1.0 },
       w2: { volume: 'off', loop: false, pitch: 1.0 }
     },
     synthBank: SYNTH_OFF,
     effects: {
-      echo: { enabled: false, delay: 150, feedback: 0 },
+      echo: { enabled: true, delay: 200, feedback: 0.3 },
       reverb: { enabled: false, decayTime: 1, density: 1, gain: 1 }
     }
   },
   {
-    name: 'All You Need Is Bill',
+    name: 'All You Need Is Everything',
     soundBanks: {
       p1: { volume: 'high', loop: false, pitch: 2.0 },
       p2: { volume: 'off', loop: false, pitch: 1.0 },
@@ -71,7 +71,7 @@ export const PRESETS: Preset[] = [
     }
   },
   {
-    name: 'Saw V Thousand',
+    name: 'Saw VV',
     soundBanks: {
       p1: { volume: 'off', loop: false, pitch: 1.0 },
       p2: { volume: 'off', loop: false, pitch: 1.0 },
@@ -119,7 +119,7 @@ export const PRESETS: Preset[] = [
       loop: true,
       waveform: 'sine',
       filterCutoff: 8000,
-      attack: 0,
+      attack: 0.1,
       release: 0,
       length: 0.6
     },
@@ -143,16 +143,16 @@ export const PRESETS: Preset[] = [
     }
   },
   {
-    name: 'Supercommuter',
+    name: 'Corporate Anthem',
     soundBanks: {
-      p1: { volume: 'high', loop: false, pitch: 2.0 },
-      p2: { volume: 'low', loop: false, pitch: 1.0 },
+      p1: { volume: 'high', loop: false, pitch: 1.0 },
+      p2: { volume: 'high', loop: false, pitch: 1.5 },
       w1: { volume: 'off', loop: false, pitch: 1.0 },
       w2: { volume: 'off', loop: false, pitch: 1.0 }
     },
     synthBank: SYNTH_OFF,
     effects: {
-      echo: { enabled: true, delay: 200, feedback: 0.3 },
+      echo: { enabled: false, delay: 150, feedback: 0 },
       reverb: { enabled: false, decayTime: 1, density: 1, gain: 1 }
     }
   },
