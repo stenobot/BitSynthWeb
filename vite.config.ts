@@ -65,7 +65,7 @@ export default defineConfig({
           //   type: 'image/png',
           // },
           {
-            src: 'bitsynth-icon.svg',
+            src: 'bitsynth-icon-green.svg',
             sizes: 'any',
             type: 'image/svg+xml',
           },
