@@ -10,7 +10,7 @@ export default defineConfig({
       includeAssets: [
         'fonts/Early GameBoy.ttf',
         'images/**/*',
-        'vite.svg',
+        'bitsynth-icon.svg',
       ],
       workbox: {
         globPatterns: [
@@ -23,7 +23,7 @@ export default defineConfig({
         name: 'BitSynth',
         short_name: 'BitSynth',
         description: 'An 8-bit mobile synthesizer',
-        theme_color: '#007e11',
+        theme_color: '#80b027',
         background_color: '#1a1a1a',
         display: 'standalone',
         orientation: 'any',
