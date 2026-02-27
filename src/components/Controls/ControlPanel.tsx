@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useSynthStore } from '../../store/synthStore'
 import { getAudioEngine } from '../../App'
 import { DisplayScreen } from './DisplayScreen'
+import { Visualizer } from './Visualizer'
 import { PresetSelector } from './PresetSelector'
 import { SoundBankControl } from './SoundBankControl'
 import { SynthBankControl } from './SynthBankControl'
@@ -23,16 +24,14 @@ export function ControlPanel() {
     setMasterVolume,
     soundBanks,
     setSoundBankVolume,
-    setSoundBankLoop,
     setSoundBankPitch,
     synthBank,
     setSynthBankVolume,
-    setSynthBankLoop,
     setSynthBankWaveform,
     setSynthBankFilterCutoff,
+    setSynthBankFilterQ,
     setSynthBankAttack,
     setSynthBankRelease,
-    setSynthBankLength,
     effects,
     setEchoEnabled,
     setEchoDelay,
@@ -56,7 +55,6 @@ export function ControlPanel() {
     for (const bankId of SOUND_BANKS) {
       const bank = soundBanks[bankId]
       engine.setSoundBankVolume(bankId, bank.volume)
-      engine.setSoundBankLoop(bankId, bank.loop)
       engine.setSoundBankPitch(bankId, bank.pitch)
     }
   }, [soundBanks])
@@ -65,12 +63,11 @@ export function ControlPanel() {
     const engine = getAudioEngine()
     if (!engine) return
     engine.setSynthBankVolume(synthBank.volume)
-    engine.setSynthBankLoop(synthBank.loop)
     engine.setSynthBankWaveform(synthBank.waveform)
     engine.setSynthBankFilterCutoff(synthBank.filterCutoff)
+    engine.setSynthBankFilterQ(synthBank.filterQ)
     engine.setSynthBankAttack(synthBank.attack)
     engine.setSynthBankRelease(synthBank.release)
-    engine.setSynthBankLength(synthBank.length)
   }, [synthBank])
 
   useEffect(() => {
@@ -103,6 +100,7 @@ export function ControlPanel() {
           />
         </div>
         <DisplayScreen />
+        <Visualizer />
       </div>
 
       <div className="control-panel__scroll">
@@ -119,10 +117,8 @@ export function ControlPanel() {
                 key={bankId}
                 label={BANK_LABELS[bankId]}
                 volume={soundBanks[bankId].volume}
-                loop={soundBanks[bankId].loop}
                 pitch={soundBanks[bankId].pitch}
                 onVolumeChange={(v) => setSoundBankVolume(bankId, v)}
-                onLoopChange={(l) => setSoundBankLoop(bankId, l)}
                 onPitchChange={(p) => setSoundBankPitch(bankId, p)}
               />
             ))}
@@ -134,12 +130,11 @@ export function ControlPanel() {
           <SynthBankControl
             synthBank={synthBank}
             onVolumeChange={setSynthBankVolume}
-            onLoopChange={setSynthBankLoop}
             onWaveformChange={setSynthBankWaveform}
             onFilterCutoffChange={setSynthBankFilterCutoff}
+            onFilterQChange={setSynthBankFilterQ}
             onAttackChange={setSynthBankAttack}
             onReleaseChange={setSynthBankRelease}
-            onLengthChange={setSynthBankLength}
           />
         </div>
 

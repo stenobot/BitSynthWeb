@@ -1,11 +1,12 @@
 .synth-bank {
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 12px;
   padding: 10px;
   background: linear-gradient(135deg, #2d1f3d 0%, #1a1a2e 100%);
   border-radius: 6px;
   border: 1px solid #4a3560;
+  flex: 1;
   opacity: 0.6;
   transition: opacity 0.15s ease;
 }
@@ -19,12 +20,13 @@
 .synth-bank__buttons {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .synth-bank__volume {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   border: none;
   border-radius: 4px;
   background: var(--color-bg);
@@ -48,8 +50,8 @@
 }
 
 .synth-bank__volume .volume-icon {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   filter: invert(1);
 }
 
@@ -70,56 +72,14 @@
   color: #fff;
 }
 
-.synth-bank__loop {
-  width: 32px;
-  height: 32px;
-  border: none;
-  border-radius: 4px;
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-size: 0.9rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.1s ease;
-}
-
-.synth-bank__loop:hover {
-  background: var(--color-control-border);
-}
-
-.synth-bank__loop.loop--active:hover {
-  background: #9c27b0;
-}
-
-.synth-bank__loop.loop--active {
-  background: #9c27b0;
-  color: #fff;
-}
-
-.synth-bank__loop .loop-icon {
-  width: 18px;
-  height: 18px;
-  filter: invert(1);
-}
-
-.synth-bank__loop.loop--active .loop-icon {
-  filter: invert(0);
-}
-
-.synth-bank__loop:disabled {
-  opacity: 0.3;
-  cursor: default;
-  pointer-events: none;
-}
-
 .synth-bank__waveform {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   border: none;
   border-radius: 4px;
   background: #4a148c;
   color: #e1bee7;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.1s ease;
@@ -139,6 +99,8 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  flex: 1;
+  min-width: 0;
   justify-content: center;
 }
 
@@ -155,20 +117,16 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   width: 38px;
+  flex-shrink: 0;
 }
 
 .synth-bank__slider {
-  width: 80px;
+  flex: 1;
+  min-width: 0;
   margin-bottom: 6px;
   accent-color: #9c27b0;
 }
 
 .synth-bank__slider:disabled {
   opacity: 0.4;
-}
-
-@media (max-width: 600px) {
-  .synth-bank__slider {
-    width: 40px;
-  }
 }

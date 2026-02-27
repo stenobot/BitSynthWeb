@@ -2,9 +2,9 @@ import type { VolumeLevel, WaveformType, SynthBankState } from '../../types'
 import {
   WAVEFORMS,
   SYNTH_FILTER_MIN, SYNTH_FILTER_MAX,
+  SYNTH_FILTER_Q_MIN, SYNTH_FILTER_Q_MAX,
   SYNTH_ATTACK_MIN, SYNTH_ATTACK_MAX,
-  SYNTH_RELEASE_MIN, SYNTH_RELEASE_MAX,
-  SYNTH_LENGTH_MIN, SYNTH_LENGTH_MAX
+  SYNTH_RELEASE_MIN, SYNTH_RELEASE_MAX
 } from '../../types'
 import './SynthBankControl.css'
 
@@ -13,12 +13,11 @@ const BASE_URL = import.meta.env.BASE_URL
 interface SynthBankControlProps {
   synthBank: SynthBankState
   onVolumeChange: (volume: VolumeLevel) => void
-  onLoopChange: (loop: boolean) => void
   onWaveformChange: (waveform: WaveformType) => void
   onFilterCutoffChange: (cutoff: number) => void
+  onFilterQChange: (q: number) => void
   onAttackChange: (attack: number) => void
   onReleaseChange: (release: number) => void
-  onLengthChange: (length: number) => void
 }
 
 const VOLUME_CYCLE: VolumeLevel[] = ['off', 'high', 'low']
@@ -33,12 +32,11 @@ const WAVEFORM_LABELS: Record<WaveformType, string> = {
 export function SynthBankControl({
   synthBank,
   onVolumeChange,
-  onLoopChange,
   onWaveformChange,
   onFilterCutoffChange,
+  onFilterQChange,
   onAttackChange,
-  onReleaseChange,
-  onLengthChange
+  onReleaseChange
 }: SynthBankControlProps) {
   const cycleVolume = () => {
     const currentIndex = VOLUME_CYCLE.indexOf(synthBank.volume)
@@ -65,14 +63,6 @@ export function SynthBankControl({
           <img src={volumeSrc} alt={`Volume: ${synthBank.volume}`} className="volume-icon" />
         </button>
         <button
-          className={`synth-bank__loop ${synthBank.loop ? 'loop--active' : ''}`}
-          onClick={() => onLoopChange(!synthBank.loop)}
-          title={synthBank.loop ? 'Loop: On' : 'Loop: Off'}
-          disabled={synthBank.volume === 'off'}
-        >
-          <img src={`${BASE_URL}images/loop.svg`} alt="Loop" className="loop-icon" />
-        </button>
-        <button
           className="synth-bank__waveform"
           onClick={cycleWaveform}
           title={`Waveform: ${synthBank.waveform}`}
@@ -84,6 +74,7 @@ export function SynthBankControl({
 
       <div className="synth-bank__controls">
         <div className="synth-bank__control">
+          <span className="synth-bank__control-label">Filter</span>
           <input
             type="range"
             min={SYNTH_FILTER_MIN}
@@ -93,10 +84,23 @@ export function SynthBankControl({
             className="synth-bank__slider"
             disabled={synthBank.volume === 'off'}
           />
-          <span className="synth-bank__control-label">Filter</span>
         </div>
 
         <div className="synth-bank__control">
+          <span className="synth-bank__control-label">Res</span>
+          <input
+            type="range"
+            min={SYNTH_FILTER_Q_MIN * 10}
+            max={SYNTH_FILTER_Q_MAX * 10}
+            value={synthBank.filterQ * 10}
+            onChange={(e) => onFilterQChange(Number(e.target.value) / 10)}
+            className="synth-bank__slider"
+            disabled={synthBank.volume === 'off'}
+          />
+        </div>
+
+        <div className="synth-bank__control">
+          <span className="synth-bank__control-label">Attack</span>
           <input
             type="range"
             min={SYNTH_ATTACK_MIN * 100}
@@ -106,10 +110,10 @@ export function SynthBankControl({
             className="synth-bank__slider"
             disabled={synthBank.volume === 'off'}
           />
-          <span className="synth-bank__control-label">Attack</span>
         </div>
 
         <div className="synth-bank__control">
+          <span className="synth-bank__control-label">Release</span>
           <input
             type="range"
             min={SYNTH_RELEASE_MIN * 100}
@@ -119,20 +123,6 @@ export function SynthBankControl({
             className="synth-bank__slider"
             disabled={synthBank.volume === 'off'}
           />
-          <span className="synth-bank__control-label">Release</span>
-        </div>
-
-        <div className="synth-bank__control">
-          <input
-            type="range"
-            min={SYNTH_LENGTH_MIN * 100}
-            max={SYNTH_LENGTH_MAX * 100}
-            value={synthBank.length * 100}
-            onChange={(e) => onLengthChange(Number(e.target.value) / 100)}
-            className="synth-bank__slider"
-            disabled={synthBank.volume === 'off' || synthBank.loop}
-          />
-          <span className="synth-bank__control-label">Length</span>
         </div>
       </div>
     </div>

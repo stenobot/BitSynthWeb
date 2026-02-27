@@ -6,10 +6,8 @@ const BASE_URL = import.meta.env.BASE_URL
 interface SoundBankControlProps {
   label: string
   volume: VolumeLevel
-  loop: boolean
   pitch: number
   onVolumeChange: (volume: VolumeLevel) => void
-  onLoopChange: (loop: boolean) => void
   onPitchChange: (pitch: number) => void
 }
 
@@ -19,10 +17,8 @@ const PITCH_VALUES = [0.5, 1.0, 1.5, 2.0]
 export function SoundBankControl({
   label,
   volume,
-  loop,
   pitch,
   onVolumeChange,
-  onLoopChange,
   onPitchChange
 }: SoundBankControlProps) {
   const cycleVolume = () => {
@@ -43,15 +39,6 @@ export function SoundBankControl({
         title={`Volume: ${volume}`}
       >
         <img src={volumeSrc} alt={`Volume: ${volume}`} className="volume-icon" />
-      </button>
-
-      <button
-        className={`sound-bank__loop ${loop ? 'loop--active' : ''}`}
-        onClick={() => onLoopChange(!loop)}
-        title={loop ? 'Loop: On' : 'Loop: Off'}
-        disabled={volume === 'off'}
-      >
-        <img src={`${BASE_URL}images/loop.svg`} alt="Loop" className="loop-icon" />
       </button>
 
       <div className="sound-bank__pitch">

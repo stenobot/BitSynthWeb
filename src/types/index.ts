@@ -4,7 +4,6 @@ export type SoundBankId = 'p1' | 'p2' | 'w1' | 'w2'
 
 export interface SoundBankState {
   volume: VolumeLevel
-  loop: boolean
   pitch: number // 0.5, 1.0, 1.5, 2.0
 }
 
@@ -12,12 +11,11 @@ export type WaveformType = 'sine' | 'square' | 'sawtooth' | 'triangle'
 
 export interface SynthBankState {
   volume: VolumeLevel
-  loop: boolean
   waveform: WaveformType
   filterCutoff: number // 200-8000 Hz
+  filterQ: number // 0.5-20
   attack: number // 0.01-0.5 seconds
   release: number // 0.1-2.0 seconds
-  length: number // 0.5-2.0 seconds (one-shot sustain)
 }
 
 export interface EchoState {
@@ -50,7 +48,6 @@ export interface Voice {
   gainNode: GainNode
   bankId: SoundBankId
   noteIndex: number
-  isLooping: boolean
   startTime: number
 }
 
@@ -95,11 +92,11 @@ export const REVERB_GAIN_MAX = 15
 // Synth bank parameter ranges
 export const SYNTH_FILTER_MIN = 200
 export const SYNTH_FILTER_MAX = 8000
+export const SYNTH_FILTER_Q_MIN = 0.5
+export const SYNTH_FILTER_Q_MAX = 20
 export const SYNTH_ATTACK_MIN = 0.01
 export const SYNTH_ATTACK_MAX = 0.5
 export const SYNTH_RELEASE_MIN = 0.1
 export const SYNTH_RELEASE_MAX = 2.0
-export const SYNTH_LENGTH_MIN = 0.5
-export const SYNTH_LENGTH_MAX = 2.0
 
 export const WAVEFORMS: WaveformType[] = ['sawtooth', 'square', 'triangle', 'sine']

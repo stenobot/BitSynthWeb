@@ -34,16 +34,14 @@ interface AppState {
   setLoadingBankLabel: (label: string) => void
   setMasterVolume: (volume: number) => void
   setSoundBankVolume: (bank: SoundBankId, volume: VolumeLevel) => void
-  setSoundBankLoop: (bank: SoundBankId, loop: boolean) => void
   setSoundBankPitch: (bank: SoundBankId, pitch: number) => void
   // Synth bank actions
   setSynthBankVolume: (volume: VolumeLevel) => void
-  setSynthBankLoop: (loop: boolean) => void
   setSynthBankWaveform: (waveform: WaveformType) => void
   setSynthBankFilterCutoff: (cutoff: number) => void
+  setSynthBankFilterQ: (q: number) => void
   setSynthBankAttack: (attack: number) => void
   setSynthBankRelease: (release: number) => void
-  setSynthBankLength: (length: number) => void
   // Effects actions
   setEchoEnabled: (enabled: boolean) => void
   setEchoDelay: (delay: number) => void
@@ -90,14 +88,6 @@ export const useSynthStore = create<AppState>()(
       displayMessage: `${bank.toUpperCase()} Volume: ${volume}`
     })),
 
-    setSoundBankLoop: (bank, loop) => set((state) => ({
-      soundBanks: {
-        ...state.soundBanks,
-        [bank]: { ...state.soundBanks[bank], loop }
-      },
-      displayMessage: `${bank.toUpperCase()} Loop: ${loop ? 'On' : 'Off'}`
-    })),
-
     setSoundBankPitch: (bank, pitch) => set((state) => ({
       soundBanks: {
         ...state.soundBanks,
@@ -112,11 +102,6 @@ export const useSynthStore = create<AppState>()(
       displayMessage: `Synth Volume: ${volume}`
     })),
 
-    setSynthBankLoop: (loop) => set((state) => ({
-      synthBank: { ...state.synthBank, loop },
-      displayMessage: `Synth Loop: ${loop ? 'On' : 'Off'}`
-    })),
-
     setSynthBankWaveform: (waveform) => set((state) => ({
       synthBank: { ...state.synthBank, waveform },
       displayMessage: `Synth Wave: ${waveform}`
@@ -127,6 +112,11 @@ export const useSynthStore = create<AppState>()(
       displayMessage: `Synth Filter: ${filterCutoff} Hz`
     })),
 
+    setSynthBankFilterQ: (filterQ) => set((state) => ({
+      synthBank: { ...state.synthBank, filterQ },
+      displayMessage: `Synth Resonance: ${filterQ}`
+    })),
+
     setSynthBankAttack: (attack) => set((state) => ({
       synthBank: { ...state.synthBank, attack },
       displayMessage: `Synth Attack: ${attack}s`
@@ -135,11 +125,6 @@ export const useSynthStore = create<AppState>()(
     setSynthBankRelease: (release) => set((state) => ({
       synthBank: { ...state.synthBank, release },
       displayMessage: `Synth Release: ${release}s`
-    })),
-
-    setSynthBankLength: (length) => set((state) => ({
-      synthBank: { ...state.synthBank, length },
-      displayMessage: `Synth Length: ${length}s`
     })),
 
     setEchoEnabled: (enabled) => set((state) => ({

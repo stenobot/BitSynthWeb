@@ -2,12 +2,11 @@ import type { Preset, SynthBankState } from '../types'
 
 const SYNTH_OFF: SynthBankState = {
   volume: 'off',
-  loop: true,
   waveform: 'sawtooth',
   filterCutoff: 2000,
+  filterQ: 1,
   attack: 0.05,
-  release: 0.5,
-  length: 1.2
+  release: 0.5
 }
 
 // Presets ported from BitSynthPlus\Services\PresetInitializer.cs
@@ -15,10 +14,10 @@ export const PRESETS: Preset[] = [
   {
     name: 'Supercommuter',
     soundBanks: {
-      p1: { volume: 'high', loop: false, pitch: 2.0 },
-      p2: { volume: 'low', loop: false, pitch: 1.0 },
-      w1: { volume: 'off', loop: false, pitch: 1.0 },
-      w2: { volume: 'off', loop: false, pitch: 1.0 }
+      p1: { volume: 'high', pitch: 2.0 },
+      p2: { volume: 'low', pitch: 1.0 },
+      w1: { volume: 'off', pitch: 1.0 },
+      w2: { volume: 'off', pitch: 1.0 }
     },
     synthBank: SYNTH_OFF,
     effects: {
@@ -29,20 +28,19 @@ export const PRESETS: Preset[] = [
   {
     name: 'All You Need Is Everything',
     soundBanks: {
-      p1: { volume: 'high', loop: false, pitch: 2.0 },
-      p2: { volume: 'off', loop: false, pitch: 1.0 },
-      w1: { volume: 'off', loop: false, pitch: 1.0 },
-      w2: { volume: 'low', loop: true, pitch: 1.0 }
+      p1: { volume: 'high', pitch: 2.0 },
+      p2: { volume: 'off', pitch: 1.0 },
+      w1: { volume: 'off', pitch: 1.0 },
+      w2: { volume: 'low', pitch: 1.0 }
     },
-      synthBank: {
-        volume: 'low',
-        loop: false,
-        waveform: 'sine',
-        filterCutoff: 2035,
-        attack: 0.07,
-        release: 0.66,
-        length: 1.6
-      },
+    synthBank: {
+      volume: 'low',
+      waveform: 'sine',
+      filterCutoff: 2035,
+      filterQ: 1,
+      attack: 0.07,
+      release: 0.66
+    },
     effects: {
       echo: { enabled: true, delay: 0, feedback: 0.8 },
       reverb: { enabled: false, decayTime: 1, density: 1, gain: 1 }
@@ -51,20 +49,19 @@ export const PRESETS: Preset[] = [
   {
     name: 'Twix Peaks',
     soundBanks: {
-      p1: { volume: 'off', loop: false, pitch: 1.0 },
-      p2: { volume: 'high', loop: false, pitch: 1.0 },
-      w1: { volume: 'off', loop: false, pitch: 1.0 },
-      w2: { volume: 'off', loop: false, pitch: 1.0 }
+      p1: { volume: 'off', pitch: 1.0 },
+      p2: { volume: 'high', pitch: 1.0 },
+      w1: { volume: 'off', pitch: 1.0 },
+      w2: { volume: 'off', pitch: 1.0 }
     },
-      synthBank: {
-        volume: 'high',
-        loop: true,
-        waveform: 'square',
-        filterCutoff: 2494,
-        attack: 0.46,
-        release: 2,
-        length: 1.2
-      },
+    synthBank: {
+      volume: 'high',
+      waveform: 'square',
+      filterCutoff: 2494,
+      filterQ: 1,
+      attack: 0.46,
+      release: 2
+    },
     effects: {
       echo: { enabled: true, delay: 250, feedback: 0.4 },
       reverb: { enabled: false, decayTime: 1, density: 1, gain: 1 }
@@ -73,19 +70,18 @@ export const PRESETS: Preset[] = [
   {
     name: 'Saw VV',
     soundBanks: {
-      p1: { volume: 'off', loop: false, pitch: 1.0 },
-      p2: { volume: 'off', loop: false, pitch: 1.0 },
-      w1: { volume: 'off', loop: false, pitch: 1.0 },
-      w2: { volume: 'off', loop: false, pitch: 1.0 }
+      p1: { volume: 'off', pitch: 1.0 },
+      p2: { volume: 'off', pitch: 1.0 },
+      w1: { volume: 'off', pitch: 1.0 },
+      w2: { volume: 'off', pitch: 1.0 }
     },
     synthBank: {
       volume: 'high',
-      loop: true,
       waveform: 'sawtooth',
       filterCutoff: 1200,
+      filterQ: 1,
       attack: 0.3,
-      release: 1.5,
-      length: 1.2
+      release: 1.5
     },
     effects: {
       echo: { enabled: true, delay: 350, feedback: 0.5 },
@@ -95,10 +91,10 @@ export const PRESETS: Preset[] = [
   {
     name: 'I Want To Believe',
     soundBanks: {
-      p1: { volume: 'off', loop: false, pitch: 1.0 },
-      p2: { volume: 'off', loop: false, pitch: 1.0 },
-      w1: { volume: 'high', loop: true, pitch: 1.0 },
-      w2: { volume: 'low', loop: true, pitch: 0.5 }
+      p1: { volume: 'off', pitch: 1.0 },
+      p2: { volume: 'off', pitch: 1.0 },
+      w1: { volume: 'high', pitch: 1.0 },
+      w2: { volume: 'low', pitch: 0.5 }
     },
     synthBank: SYNTH_OFF,
     effects: {
@@ -109,19 +105,18 @@ export const PRESETS: Preset[] = [
   {
     name: "Asterix's Idea",
     soundBanks: {
-      p1: { volume: 'off', loop: false, pitch: 1.0 },
-      p2: { volume: 'off', loop: false, pitch: 1.0 },
-      w1: { volume: 'off', loop: false, pitch: 1.0 },
-      w2: { volume: 'off', loop: false, pitch: 1.0 }
+      p1: { volume: 'off', pitch: 1.0 },
+      p2: { volume: 'off', pitch: 1.0 },
+      w1: { volume: 'off', pitch: 1.0 },
+      w2: { volume: 'off', pitch: 1.0 }
     },
     synthBank: {
       volume: 'high',
-      loop: true,
       waveform: 'sine',
       filterCutoff: 8000,
+      filterQ: 1,
       attack: 0.1,
-      release: 0,
-      length: 0.6
+      release: 0
     },
     effects: {
       echo: { enabled: true, delay: 600, feedback: 0 },
@@ -131,10 +126,10 @@ export const PRESETS: Preset[] = [
   {
     name: 'Happy Accident',
     soundBanks: {
-      p1: { volume: 'off', loop: false, pitch: 1.0 },
-      p2: { volume: 'high', loop: false, pitch: 1.5 },
-      w1: { volume: 'low', loop: true, pitch: 0.5 },
-      w2: { volume: 'off', loop: false, pitch: 1.0 }
+      p1: { volume: 'off', pitch: 1.0 },
+      p2: { volume: 'high', pitch: 1.5 },
+      w1: { volume: 'low', pitch: 0.5 },
+      w2: { volume: 'off', pitch: 1.0 }
     },
     synthBank: SYNTH_OFF,
     effects: {
@@ -145,10 +140,10 @@ export const PRESETS: Preset[] = [
   {
     name: 'Corporate Anthem',
     soundBanks: {
-      p1: { volume: 'high', loop: false, pitch: 1.0 },
-      p2: { volume: 'high', loop: false, pitch: 1.5 },
-      w1: { volume: 'off', loop: false, pitch: 1.0 },
-      w2: { volume: 'off', loop: false, pitch: 1.0 }
+      p1: { volume: 'high', pitch: 1.0 },
+      p2: { volume: 'high', pitch: 1.5 },
+      w1: { volume: 'off', pitch: 1.0 },
+      w2: { volume: 'off', pitch: 1.0 }
     },
     synthBank: SYNTH_OFF,
     effects: {
@@ -159,19 +154,18 @@ export const PRESETS: Preset[] = [
   {
     name: 'Sine Language',
     soundBanks: {
-      p1: { volume: 'off', loop: false, pitch: 1.0 },
-      p2: { volume: 'off', loop: false, pitch: 1.0 },
-      w1: { volume: 'off', loop: false, pitch: 1.0 },
-      w2: { volume: 'off', loop: false, pitch: 1.0 }
+      p1: { volume: 'off', pitch: 1.0 },
+      p2: { volume: 'off', pitch: 1.0 },
+      w1: { volume: 'off', pitch: 1.0 },
+      w2: { volume: 'off', pitch: 1.0 }
     },
     synthBank: {
       volume: 'high',
-      loop: true,
       waveform: 'sine',
       filterCutoff: 6000,
+      filterQ: 1,
       attack: 0.4,
-      release: 2.0,
-      length: 1.2
+      release: 2.0
     },
     effects: {
       echo: { enabled: false, delay: 150, feedback: 0 },

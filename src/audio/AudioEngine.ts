@@ -18,6 +18,8 @@ export class AudioEngine {
   private activeVoices: Map<string, Voice[]> = new Map()
   private activeSynthVoices: Map<string, SynthVoice[]> = new Map()
 
+  private analyser: AnalyserNode | null = null
+
   private echoEffect: EchoEffect | null = null
   private reverbEffect: ReverbEffect | null = null
   private dryGain: GainNode | null = null
@@ -25,17 +27,15 @@ export class AudioEngine {
 
   // Per-bank settings
   private bankPitch: Map<SoundBankId, number> = new Map()
-  private bankLoop: Map<SoundBankId, boolean> = new Map()
 
   // Synth bank settings
   private synthSettings: SynthBankState = {
     volume: 'off',
-    loop: true,
     waveform: 'sawtooth',
     filterCutoff: 2000,
+    filterQ: 1,
     attack: 0.05,
-    release: 0.5,
-    length: 1.2
+    release: 0.5
   }
 
   async initialize(onProgress?: (loaded: number, total: number) => void, onBankStart?: (bank: string) => void): Promise<void> {
@@ -44,6 +44,11 @@ export class AudioEngine {
     // Create master gain
     this.masterGain = this.context.createGain()
     this.masterGain.gain.value = 0.5
+
+    // Create analyser for visualizer
+    this.analyser = this.context.createAnalyser()
+    this.analyser.fftSize = 2048
+    this.masterGain.connect(this.analyser)
 
     // Create dry/wet mix nodes for effects
     this.dryGain = this.context.createGain()
@@ -62,7 +67,6 @@ export class AudioEngine {
       gain.connect(this.masterGain)
       this.bankGains.set(bankId, gain)
       this.bankPitch.set(bankId, 1.0)
-      this.bankLoop.set(bankId, false)
     }
 
     // Create synth bank gain node
@@ -93,7 +97,7 @@ export class AudioEngine {
   private async loadSamples(onProgress?: (loaded: number, total: number) => void, onBankStart?: (bank: string) => void): Promise<void> {
     if (!this.context) return
 
-    const total = SOUND_BANKS.length * NOTE_NAMES.length * 2
+    const total = SOUND_BANKS.length * NOTE_NAMES.length
     let loaded = 0
 
     for (const bankId of SOUND_BANKS) {
@@ -114,47 +118,8 @@ export class AudioEngine {
         }
         loaded++
         onProgress?.(loaded, total)
-
-        // Load loop sample
-        try {
-          const loopUrl = `${BASE_URL}samples/${bankId}-${noteName}-loop.ogg`
-          const loopBuffer = await this.loadAudioFile(loopUrl)
-          if (loopBuffer) {
-            const shouldCrossFade = bankId === 'p1' || bankId === 'p2'
-            this.sampleBuffers.set(`${bankId}-${noteName}-loop`, shouldCrossFade ? this.crossFadeLoopBuffer(loopBuffer) : loopBuffer)
-          }
-        } catch (e) {
-          console.warn(`Failed to load ${bankId}-${noteName}-loop.ogg`)
-        }
-        loaded++
-        onProgress?.(loaded, total)
       }
     }
-  }
-
-  // Cross-fade the tail of a loop buffer into the head for seamless looping.
-  // Only the tail is modified so the loop point wraps cleanly into the untouched head.
-  // Uses an equal-power (cosine) curve to maintain constant perceived loudness.
-  private crossFadeLoopBuffer(buffer: AudioBuffer): AudioBuffer {
-    if (!this.context) return buffer
-
-    const fadeSamples = Math.min(Math.floor(buffer.sampleRate * 0.15), Math.floor(buffer.length / 3))
-    const newBuffer = this.context.createBuffer(buffer.numberOfChannels, buffer.length, buffer.sampleRate)
-
-    for (let ch = 0; ch < buffer.numberOfChannels; ch++) {
-      const src = buffer.getChannelData(ch)
-      const dst = newBuffer.getChannelData(ch)
-      dst.set(src)
-
-      for (let i = 0; i < fadeSamples; i++) {
-        const t = i / fadeSamples
-        const fadeOut = Math.cos(t * Math.PI * 0.5)
-        const fadeIn = Math.sin(t * Math.PI * 0.5)
-        dst[buffer.length - fadeSamples + i] = src[buffer.length - fadeSamples + i] * fadeOut + src[i] * fadeIn
-      }
-    }
-
-    return newBuffer
   }
 
   private async loadAudioFile(url: string): Promise<AudioBuffer | null> {
@@ -189,18 +154,14 @@ export class AudioEngine {
       if (!bankGain || bankGain.gain.value === 0) continue
 
       const pitch = this.bankPitch.get(bankId) ?? 1.0
-      const loop = this.bankLoop.get(bankId) ?? false
       const noteName = NOTE_NAMES[noteIndex]
 
-      const bufferKey = loop ? `${bankId}-${noteName}-loop` : `${bankId}-${noteName}`
-      const buffer = this.sampleBuffers.get(bufferKey)
-
+      const buffer = this.sampleBuffers.get(`${bankId}-${noteName}`)
       if (!buffer) continue
 
       const sourceNode = this.context.createBufferSource()
       sourceNode.buffer = buffer
       sourceNode.playbackRate.value = pitch
-      sourceNode.loop = loop
 
       const voiceGain = this.context.createGain()
       voiceGain.gain.value = 1.0
@@ -216,24 +177,21 @@ export class AudioEngine {
         gainNode: voiceGain,
         bankId,
         noteIndex,
-        isLooping: loop,
         startTime: this.context.currentTime
       }
 
-      // Clean up one-shot voices when they finish naturally
-      if (!loop) {
-        sourceNode.onended = () => {
-          try {
-            voiceGain.disconnect()
-          } catch {
-            // Already disconnected
-          }
-          const voices = this.activeVoices.get(key)
-          if (voices) {
-            const idx = voices.indexOf(voice)
-            if (idx !== -1) voices.splice(idx, 1)
-            if (voices.length === 0) this.activeVoices.delete(key)
-          }
+      // Clean up voices when they finish naturally
+      sourceNode.onended = () => {
+        try {
+          voiceGain.disconnect()
+        } catch {
+          // Already disconnected
+        }
+        const voices = this.activeVoices.get(key)
+        if (voices) {
+          const idx = voices.indexOf(voice)
+          if (idx !== -1) voices.splice(idx, 1)
+          if (voices.length === 0) this.activeVoices.delete(key)
         }
       }
       if (!this.activeVoices.has(key)) {
@@ -262,7 +220,7 @@ export class AudioEngine {
     const filter = this.context.createBiquadFilter()
     filter.type = 'lowpass'
     filter.frequency.value = this.synthSettings.filterCutoff
-    filter.Q.value = 1
+    filter.Q.value = this.synthSettings.filterQ
 
     // Create gain for envelope
     const gainNode = this.context.createGain()
@@ -276,7 +234,6 @@ export class AudioEngine {
     // Apply attack envelope
     const now = this.context.currentTime
     const attack = this.synthSettings.attack
-    const release = this.synthSettings.release
     gainNode.gain.setValueAtTime(0, now)
     gainNode.gain.linearRampToValueAtTime(1, now + attack)
 
@@ -289,30 +246,6 @@ export class AudioEngine {
       gainNode,
       noteIndex,
       startTime: now
-    }
-
-    // One-shot mode: schedule sustain + release to auto-stop
-    if (!this.synthSettings.loop) {
-      const sustainEnd = now + this.synthSettings.length
-      gainNode.gain.setValueAtTime(1, sustainEnd)
-      gainNode.gain.linearRampToValueAtTime(0, sustainEnd + release)
-      oscillator.stop(sustainEnd + release + 0.01)
-
-      setTimeout(() => {
-        try {
-          oscillator.disconnect()
-          filter.disconnect()
-          gainNode.disconnect()
-        } catch {
-          // Already disconnected
-        }
-        const voices = this.activeSynthVoices.get(key)
-        if (voices) {
-          const idx = voices.indexOf(synthVoice)
-          if (idx !== -1) voices.splice(idx, 1)
-          if (voices.length === 0) this.activeSynthVoices.delete(key)
-        }
-      }, (this.synthSettings.length + release + 0.1) * 1000)
     }
 
     if (!this.activeSynthVoices.has(key)) {
@@ -332,42 +265,9 @@ export class AudioEngine {
       try {
         voice.sourceNode.stop()
         voice.sourceNode.disconnect()
+        voice.gainNode.disconnect()
       } catch {
         // Already stopped
-      }
-
-      if (voice.isLooping) {
-        // Looping voice: play the non-loop sample for ring-out
-        const pitch = this.bankPitch.get(voice.bankId) ?? 1.0
-        const noteName = NOTE_NAMES[voice.noteIndex]
-        const releaseBufferKey = `${voice.bankId}-${noteName}`
-        const releaseBuffer = this.sampleBuffers.get(releaseBufferKey)
-
-        if (releaseBuffer && this.context) {
-          const bankGain = this.bankGains.get(voice.bankId)
-          if (bankGain) {
-            const releaseSource = this.context.createBufferSource()
-            releaseSource.buffer = releaseBuffer
-            releaseSource.playbackRate.value = pitch
-            releaseSource.loop = false
-
-            releaseSource.connect(voice.gainNode)
-            releaseSource.start()
-
-            releaseSource.onended = () => {
-              try {
-                voice.gainNode.disconnect()
-              } catch {
-                // Already disconnected
-              }
-            }
-          }
-        } else {
-          voice.gainNode.disconnect()
-        }
-      } else {
-        // One-shot voice: just clean up
-        voice.gainNode.disconnect()
       }
     }
     this.activeVoices.delete(key)
@@ -417,10 +317,6 @@ export class AudioEngine {
     this.bankPitch.set(bankId, pitch)
   }
 
-  setSoundBankLoop(bankId: SoundBankId, loop: boolean): void {
-    this.bankLoop.set(bankId, loop)
-  }
-
   // Synth bank setters
   setSynthBankVolume(volume: VolumeLevel): void {
     this.synthSettings.volume = volume
@@ -429,20 +325,24 @@ export class AudioEngine {
     }
   }
 
-  setSynthBankLoop(loop: boolean): void {
-    this.synthSettings.loop = loop
-  }
-
   setSynthBankWaveform(waveform: WaveformType): void {
     this.synthSettings.waveform = waveform
   }
 
   setSynthBankFilterCutoff(cutoff: number): void {
     this.synthSettings.filterCutoff = cutoff
-    // Update filter on active voices
     for (const voices of this.activeSynthVoices.values()) {
       for (const voice of voices) {
         voice.filter.frequency.value = cutoff
+      }
+    }
+  }
+
+  setSynthBankFilterQ(q: number): void {
+    this.synthSettings.filterQ = q
+    for (const voices of this.activeSynthVoices.values()) {
+      for (const voice of voices) {
+        voice.filter.Q.value = q
       }
     }
   }
@@ -453,10 +353,6 @@ export class AudioEngine {
 
   setSynthBankRelease(release: number): void {
     this.synthSettings.release = release
-  }
-
-  setSynthBankLength(length: number): void {
-    this.synthSettings.length = length
   }
 
   setEchoEnabled(enabled: boolean): void {
@@ -477,6 +373,10 @@ export class AudioEngine {
 
   setReverbParams(decayTime: number, density: number, gain: number): void {
     this.reverbEffect?.setParams(decayTime, density, gain)
+  }
+
+  getAnalyser(): AnalyserNode | null {
+    return this.analyser
   }
 
   dispose(): void {

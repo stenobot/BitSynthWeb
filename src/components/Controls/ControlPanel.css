@@ -14,6 +14,7 @@
   overflow-y: hidden;
   flex: 1;
   padding-bottom: 16px;
+  align-items: stretch;
 }
 
 .control-panel__scroll::-webkit-scrollbar {
@@ -84,6 +85,7 @@
 .sound-banks {
   display: flex;
   gap: 12px;
+  flex: 1;
 }
 
 @media (max-width: 800px) {
