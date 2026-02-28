@@ -69,18 +69,16 @@ export const NOTE_NAMES = [
 
 export const SOUND_BANKS: SoundBankId[] = ['p1', 'p2', 'w1', 'w2']
 
-// Volume gain values from UWP SoundPlayer.cs
-export const VOLUME_GAINS: Record<VolumeLevel, number> = {
+export const SYNTH_BANK_VOLUME_GAINS: Record<VolumeLevel, number> = {
   off: 0.0,
-  low: 0.3,
-  high: 1.0
+  low: 0.2,
+  high: 0.5
 }
 
-// Sample bank volume gains (adjusted higher)
 export const SAMPLE_BANK_VOLUME_GAINS: Record<VolumeLevel, number> = {
   off: 0.0,
-  low: 0.45,
-  high: 1.2
+  low: 0.3,
+  high: 1.1
 }
 
 // Effect parameter ranges from CustomResources.xaml
