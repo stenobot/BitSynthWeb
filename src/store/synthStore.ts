@@ -64,7 +64,7 @@ export const useSynthStore = create<AppState>()(
     isLoading: true,
     loadProgress: 0,
     loadingBankLabel: '',
-    masterVolume: 5,
+    masterVolume: 11,
     activePreset: 0,
     displayMessage: `Preset: ${firstPreset.name}`,
 

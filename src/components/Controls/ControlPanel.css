@@ -66,22 +66,6 @@
   letter-spacing: -0.05em;
 }
 
-.master-volume {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.master-volume label {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-}
-
-.master-volume input[type="range"] {
-  width: 105px;
-  accent-color: var(--color-accent);
-}
-
 .sound-banks {
   display: flex;
   gap: 12px;

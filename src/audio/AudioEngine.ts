@@ -1,5 +1,5 @@
 import type { SoundBankId, VolumeLevel, Voice, SynthVoice, WaveformType, SynthBankState } from '../types'
-import { NOTE_NAMES, SOUND_BANKS, VOLUME_GAINS } from '../types'
+import { NOTE_NAMES, SOUND_BANKS, VOLUME_GAINS, SAMPLE_BANK_VOLUME_GAINS } from '../types'
 import { EchoEffect } from './effects/EchoEffect'
 import { ReverbEffect } from './effects/ReverbEffect'
 
@@ -63,7 +63,7 @@ export class AudioEngine {
     // Create per-bank gain nodes for sample banks
     for (const bankId of SOUND_BANKS) {
       const gain = this.context.createGain()
-      gain.gain.value = bankId === 'p1' ? VOLUME_GAINS.high : VOLUME_GAINS.off
+      gain.gain.value = bankId === 'p1' ? SAMPLE_BANK_VOLUME_GAINS.high : SAMPLE_BANK_VOLUME_GAINS.off
       gain.connect(this.masterGain)
       this.bankGains.set(bankId, gain)
       this.bankPitch.set(bankId, 1.0)
@@ -71,7 +71,7 @@ export class AudioEngine {
 
     // Create synth bank gain node
     this.synthBankGain = this.context.createGain()
-    this.synthBankGain.gain.value = VOLUME_GAINS.off
+    this.synthBankGain.gain.value = VOLUME_GAINS.off * 0.85
     this.synthBankGain.connect(this.masterGain)
 
     // Wire up audio graph
@@ -309,7 +309,7 @@ export class AudioEngine {
   setSoundBankVolume(bankId: SoundBankId, volume: VolumeLevel): void {
     const gain = this.bankGains.get(bankId)
     if (gain) {
-      gain.gain.value = VOLUME_GAINS[volume]
+      gain.gain.value = SAMPLE_BANK_VOLUME_GAINS[volume]
     }
   }
 
@@ -321,7 +321,7 @@ export class AudioEngine {
   setSynthBankVolume(volume: VolumeLevel): void {
     this.synthSettings.volume = volume
     if (this.synthBankGain) {
-      this.synthBankGain.gain.value = VOLUME_GAINS[volume]
+      this.synthBankGain.gain.value = VOLUME_GAINS[volume] * 0.85 // Slightly lower for synth bank
     }
   }
 

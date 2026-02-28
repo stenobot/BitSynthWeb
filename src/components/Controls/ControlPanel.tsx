@@ -20,8 +20,6 @@ const BANK_LABELS: Record<SoundBankId, string> = {
 
 export function ControlPanel() {
   const {
-    masterVolume,
-    setMasterVolume,
     soundBanks,
     setSoundBankVolume,
     setSoundBankPitch,
@@ -46,8 +44,8 @@ export function ControlPanel() {
   useEffect(() => {
     const engine = getAudioEngine()
     if (!engine) return
-    engine.setMasterVolume(masterVolume)
-  }, [masterVolume])
+    engine.setMasterVolume(11) // Always set to max
+  }, [])
 
   useEffect(() => {
     const engine = getAudioEngine()
@@ -89,16 +87,6 @@ export function ControlPanel() {
     <div className="control-panel">
       <div className="control-panel__section control-panel__header">
         <h1 className="logo">BitSynth</h1>
-        <div className="master-volume">
-          <label>Vol</label>
-          <input
-            type="range"
-            min="0"
-            max="11"
-            value={masterVolume}
-            onChange={(e) => setMasterVolume(Number(e.target.value))}
-          />
-        </div>
         <DisplayScreen />
         <Visualizer />
       </div>

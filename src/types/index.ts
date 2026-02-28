@@ -76,6 +76,13 @@ export const VOLUME_GAINS: Record<VolumeLevel, number> = {
   high: 1.0
 }
 
+// Sample bank volume gains (adjusted higher)
+export const SAMPLE_BANK_VOLUME_GAINS: Record<VolumeLevel, number> = {
+  off: 0.0,
+  low: 0.45,
+  high: 1.2
+}
+
 // Effect parameter ranges from CustomResources.xaml
 export const ECHO_DELAY_MIN = 150
 export const ECHO_DELAY_MAX = 600
