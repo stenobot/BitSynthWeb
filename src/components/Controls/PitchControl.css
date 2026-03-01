@@ -65,6 +65,7 @@
 }
 
 .pitch-control__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
   appearance: none;
   width: 20px;
   height: 14px;
@@ -75,6 +76,8 @@
 }
 
 .pitch-control__slider::-moz-range-thumb {
+  -moz-appearance: none;
+  appearance: none;
   width: 20px;
   height: 14px;
   background: #424242;
