@@ -51,6 +51,38 @@
   accent-color: var(--color-accent);
 }
 
+.pitch-control__slider::-webkit-slider-runnable-track {
+  height: 18px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #e0e0e0, #979797);
+}
+
+.pitch-control__slider::-moz-range-track {
+  height: 18px;
+  border-radius: 2px;
+  border: none;
+  background: linear-gradient(90deg, #c2c2c2, #7f7f7f);
+}
+
+.pitch-control__slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 14px;
+  background: #424242;
+  cursor: pointer;
+  border: none;
+  border-radius: 2px;
+}
+
+.pitch-control__slider::-moz-range-thumb {
+  width: 20px;
+  height: 14px;
+  background: #424242;
+  cursor: pointer;
+  border: none;
+  border-radius: 2px;
+}
+
 .pitch-control__value {
   font-size: 0.7rem;
   color: var(--color-text-muted);
