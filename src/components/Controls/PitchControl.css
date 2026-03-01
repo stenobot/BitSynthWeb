@@ -1,38 +1,33 @@
 .pitch-control {
-  width: 9.5em;
   flex-direction: column;
   gap: 6px;
 }
 
-.pitch-control__button-row {
+.pitch-control__slider-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
 }
 
 .pitch-control__snap-btn {
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 3px;
   background: var(--color-control-bg);
   color: var(--color-text);
-  font-family: 'Early GameBoy', monospace;
-  font-size: 0.9rem;
-  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.1s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  margin-bottom: 0.4em;
+  flex-shrink: 0;
 }
 
 .pitch-control__snap-icon {
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
   filter: invert(1);
 }
 
@@ -51,7 +46,8 @@
 }
 
 .pitch-control__slider {
-  width: 100%;
+  flex: 1;
+  width: 4em;
   accent-color: var(--color-accent);
 }
 

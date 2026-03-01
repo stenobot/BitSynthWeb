@@ -62,7 +62,18 @@ export function PitchControl() {
 
   return (
     <div className="pitch-control">
-      <div className="pitch-control__button-row">
+      <div className="pitch-control__slider-row">
+        <input
+          type="range"
+          min="-1"
+          max="1"
+          step="0.01"
+          value={Math.log2(masterPitch)}
+          onChange={handlePitchChange}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          className="pitch-control__slider"
+        />
         <button 
           className={`pitch-control__snap-btn ${pitchSnapEnabled ? 'pitch-control__snap-btn--active' : ''}`}
           onClick={handleToggleSnap}
@@ -74,19 +85,8 @@ export function PitchControl() {
             className="pitch-control__snap-icon"
           />
         </button>
-        <span className="pitch-control__value">{displayPitch}</span>
       </div>
-      <input
-        type="range"
-        min="-1"
-        max="1"
-        step="0.01"
-        value={Math.log2(masterPitch)}
-        onChange={handlePitchChange}
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        className="pitch-control__slider"
-      />
+      <span className="pitch-control__value">Pitch: {displayPitch}</span>
     </div>
   )
 }

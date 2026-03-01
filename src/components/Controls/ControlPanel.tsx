@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useSynthStore } from '../../store/synthStore'
 import { getAudioEngine } from '../../App'
 import { DisplayScreen } from './DisplayScreen'
-import { Visualizer } from './Visualizer'
 import { PitchControl } from './PitchControl'
 import { PresetSelector } from './PresetSelector'
 import { SoundBankControl } from './SoundBankControl'
@@ -89,7 +88,6 @@ export function ControlPanel() {
       <div className="control-panel__section control-panel__header">
         <h1 className="logo">BitSynth</h1>
         <DisplayScreen />
-        <Visualizer />
         <PitchControl />
       </div>
 
