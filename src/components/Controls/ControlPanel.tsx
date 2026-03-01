@@ -3,6 +3,7 @@ import { useSynthStore } from '../../store/synthStore'
 import { getAudioEngine } from '../../App'
 import { DisplayScreen } from './DisplayScreen'
 import { Visualizer } from './Visualizer'
+import { PitchControl } from './PitchControl'
 import { PresetSelector } from './PresetSelector'
 import { SoundBankControl } from './SoundBankControl'
 import { SynthBankControl } from './SynthBankControl'
@@ -89,6 +90,7 @@ export function ControlPanel() {
         <h1 className="logo">BitSynth</h1>
         <DisplayScreen />
         <Visualizer />
+        <PitchControl />
       </div>
 
       <div className="control-panel__scroll">

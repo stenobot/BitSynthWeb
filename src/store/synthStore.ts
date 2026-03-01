@@ -11,6 +11,8 @@ interface AppState {
 
   // Master controls
   masterVolume: number // 0-11
+  masterPitch: number // 0.5 (octave down) to 2.0 (octave up), 1.0 = normal
+  pitchSnapEnabled: boolean // Whether pitch snaps back to normal on release
   activePreset: number // 0-5
 
   // Display screen message
@@ -33,6 +35,8 @@ interface AppState {
   setLoadProgress: (progress: number) => void
   setLoadingBankLabel: (label: string) => void
   setMasterVolume: (volume: number) => void
+  setMasterPitch: (pitch: number) => void
+  setPitchSnapEnabled: (enabled: boolean) => void
   setSoundBankVolume: (bank: SoundBankId, volume: VolumeLevel) => void
   setSoundBankPitch: (bank: SoundBankId, pitch: number) => void
   // Synth bank actions
@@ -65,6 +69,8 @@ export const useSynthStore = create<AppState>()(
     loadProgress: 0,
     loadingBankLabel: '',
     masterVolume: 11,
+    masterPitch: 1.0,
+    pitchSnapEnabled: true,
     activePreset: 0,
     displayMessage: `Preset: ${firstPreset.name}`,
 
@@ -79,6 +85,10 @@ export const useSynthStore = create<AppState>()(
     setLoadProgress: (progress) => set({ loadProgress: progress }),
     setLoadingBankLabel: (label) => set({ loadingBankLabel: label }),
     setMasterVolume: (volume) => set({ masterVolume: volume, displayMessage: `Master Vol: ${volume}` }),
+
+    setMasterPitch: (pitch) => set({ masterPitch: pitch, displayMessage: `Pitch: ${(pitch * 12).toFixed(1)} semitones` }),
+
+    setPitchSnapEnabled: (enabled) => set({ pitchSnapEnabled: enabled }),
 
     setSoundBankVolume: (bank, volume) => set((state) => ({
       soundBanks: {

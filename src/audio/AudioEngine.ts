@@ -27,6 +27,7 @@ export class AudioEngine {
 
   // Per-bank settings
   private bankPitch: Map<SoundBankId, number> = new Map()
+  private masterPitch: number = 1.0
 
   // Synth bank settings
   private synthSettings: SynthBankState = {
@@ -161,7 +162,7 @@ export class AudioEngine {
 
       const sourceNode = this.context.createBufferSource()
       sourceNode.buffer = buffer
-      sourceNode.playbackRate.value = pitch
+      sourceNode.playbackRate.value = pitch * this.masterPitch
 
       const voiceGain = this.context.createGain()
       voiceGain.gain.value = 1.0
@@ -214,7 +215,7 @@ export class AudioEngine {
     // Create oscillator
     const oscillator = this.context.createOscillator()
     oscillator.type = this.synthSettings.waveform
-    oscillator.frequency.value = frequency
+    oscillator.frequency.value = frequency * this.masterPitch
 
     // Create filter
     const filter = this.context.createBiquadFilter()
@@ -303,6 +304,26 @@ export class AudioEngine {
   setMasterVolume(volume: number): void {
     if (this.masterGain) {
       this.masterGain.gain.value = volume / 11
+    }
+  }
+
+  setMasterPitch(pitch: number): void {
+    console.log(`Setting master pitch to ${pitch}x`)
+    this.masterPitch = pitch
+
+    // Update playback rate for all active sample bank voices
+    for (const voices of this.activeVoices.values()) {
+      for (const voice of voices) {
+        voice.sourceNode.playbackRate.value = (this.bankPitch.get(voice.bankId) ?? 1.0) * this.masterPitch
+      }
+    }
+
+    // Update frequency for all active synth voices
+    for (const voices of this.activeSynthVoices.values()) {
+      for (const voice of voices) {
+        const baseFreq = this.getNoteFrequency(voice.noteIndex)
+        voice.oscillator.frequency.value = baseFreq * this.masterPitch
+      }
     }
   }
 
