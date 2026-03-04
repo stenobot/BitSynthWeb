@@ -15,12 +15,12 @@
   position: relative;
   height: var(--white-key-height);
   overflow: hidden;
-  /* Default (<600px): 40px keys, 11 white keys = 440px, ends on B2 */
-  width: calc(11 * var(--white-key-width));
+  /* Default (<480px): 40px keys, 7 white keys = 280px, one octave F-E */
+  width: calc(7 * var(--white-key-width));
 }
 
-/* 600-949px: 50px keys, 11 white keys = 550px, ends on B2 */
-@media (min-width: 600px) {
+/* 480-949px: 11 white keys, ends on B2 */
+@media (min-width: 480px) {
   .keyboard-keys {
     width: calc(11 * var(--white-key-width));
   }
