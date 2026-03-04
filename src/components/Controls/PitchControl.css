@@ -46,9 +46,12 @@
 }
 
 .pitch-control__slider {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   flex: 1;
   width: 4em;
-  accent-color: var(--color-accent);
+  background: transparent;
 }
 
 .pitch-control__slider::-webkit-slider-runnable-track {
@@ -73,6 +76,7 @@
   cursor: pointer;
   border: none;
   border-radius: 2px;
+  margin-top: 2px;
 }
 
 .pitch-control__slider::-moz-range-thumb {
