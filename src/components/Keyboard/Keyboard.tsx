@@ -41,15 +41,6 @@ export function Keyboard() {
 
   // Get key index from screen coordinates
   const getKeyIndexFromPoint = useCallback((x: number, y: number): number | null => {
-    // Ignore clicks outside the visible keyboard area (keys clipped by overflow: hidden)
-    const keysContainer = containerRef.current?.querySelector('.keyboard-keys')
-    if (keysContainer) {
-      const bounds = keysContainer.getBoundingClientRect()
-      if (x < bounds.left || x > bounds.right || y < bounds.top || y > bounds.bottom) {
-        return null
-      }
-    }
-
     // Check black keys first (they're on top visually)
     for (let i = 0; i < NOTE_NAMES.length; i++) {
       if (!isBlackKey(i)) continue
@@ -78,8 +69,12 @@ export function Keyboard() {
   }, [])
 
   const handleNoteOn = useCallback((index: number) => {
+    const engine = getAudioEngine()
+    if (engine) {
+      engine.ensureContextResumed()
+      engine.playNote(index)
+    }
     pressKey(index)
-    getAudioEngine()?.playNote(index)
   }, [pressKey])
 
   const handleNoteOff = useCallback((index: number) => {
@@ -90,6 +85,8 @@ export function Keyboard() {
   // Pointer event handlers for touch slide support
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     e.preventDefault()
+    const target = e.currentTarget as HTMLElement
+    target.setPointerCapture(e.pointerId)
 
     const keyIndex = getKeyIndexFromPoint(e.clientX, e.clientY)
 

@@ -29,6 +29,12 @@ export class AudioEngine {
   private bankPitch: Map<SoundBankId, number> = new Map()
   private masterPitch: number = 1.0
 
+  // Track whether we've done a post-resume re-sync of audio params
+  private hasResumedContext: boolean = false
+
+  // Stored bank volume levels for re-syncing after context resume
+  private bankVolumes: Map<SoundBankId, VolumeLevel> = new Map()
+
   // Synth bank settings
   private synthSettings: SynthBankState = {
     volume: 'off',
@@ -63,11 +69,18 @@ export class AudioEngine {
 
     // Create per-bank gain nodes for sample banks
     for (const bankId of SOUND_BANKS) {
+      const defaultVolume: VolumeLevel = bankId === 'p1' ? 'high' : 'off'
       const gain = this.context.createGain()
-      gain.gain.value = bankId === 'p1' ? SAMPLE_BANK_VOLUME_GAINS.high : SAMPLE_BANK_VOLUME_GAINS.off
+      gain.gain.value = SAMPLE_BANK_VOLUME_GAINS[defaultVolume]
       gain.connect(this.masterGain)
       this.bankGains.set(bankId, gain)
       this.bankPitch.set(bankId, 1.0)
+      this.bankVolumes.set(bankId, defaultVolume)
+    }
+
+    // If context is already running (non-Safari), mark as resumed
+    if (this.context.state === 'running') {
+      this.hasResumedContext = true
     }
 
     // Create synth bank gain node
@@ -142,11 +155,52 @@ export class AudioEngine {
     return baseFreq * Math.pow(2, noteIndex / 12)
   }
 
+  /**
+   * Re-apply all gain values after AudioContext resumes.
+   * Safari may not honor AudioParam values set while the context was suspended.
+   */
+  private resyncAudioParams(): void {
+    if (!this.context || !this.masterGain) return
+
+    // Re-apply master gain
+    this.masterGain.gain.value = this.masterGain.gain.value
+
+    // Re-apply all bank gain values
+    for (const bankId of SOUND_BANKS) {
+      const gain = this.bankGains.get(bankId)
+      const volume = this.bankVolumes.get(bankId)
+      if (gain && volume !== undefined) {
+        gain.gain.value = SAMPLE_BANK_VOLUME_GAINS[volume]
+      }
+    }
+
+    // Re-apply synth bank gain
+    if (this.synthBankGain) {
+      this.synthBankGain.gain.value = SYNTH_BANK_VOLUME_GAINS[this.synthSettings.volume]
+    }
+  }
+
+  async ensureContextResumed(): Promise<void> {
+    if (!this.context) return
+    if (this.context.state === 'suspended') {
+      await this.context.resume()
+    }
+    if (!this.hasResumedContext) {
+      this.hasResumedContext = true
+      this.resyncAudioParams()
+    }
+  }
+
   playNote(noteIndex: number): void {
     if (!this.context || !this.masterGain) return
 
     if (this.context.state === 'suspended') {
-      this.context.resume()
+      this.context.resume().then(() => {
+        if (!this.hasResumedContext) {
+          this.hasResumedContext = true
+          this.resyncAudioParams()
+        }
+      })
     }
 
     // Play on sample banks
@@ -328,6 +382,7 @@ export class AudioEngine {
   }
 
   setSoundBankVolume(bankId: SoundBankId, volume: VolumeLevel): void {
+    this.bankVolumes.set(bankId, volume)
     const gain = this.bankGains.get(bankId)
     if (gain) {
       gain.gain.value = SAMPLE_BANK_VOLUME_GAINS[volume]
