@@ -199,6 +199,8 @@ export const useSynthStore = create<AppState>()(
 
       set({
         activePreset: presetIndex,
+        masterPitch: preset.masterPitch,
+        pitchSnapEnabled: preset.pitchSnapEnabled,
         soundBanks: { ...preset.soundBanks },
         synthBank: { ...preset.synthBank },
         effects: { ...preset.effects },

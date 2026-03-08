@@ -38,6 +38,8 @@ export interface EffectsState {
 
 export interface Preset {
   name: string
+  masterPitch: number
+  pitchSnapEnabled: boolean
   soundBanks: Record<SoundBankId, SoundBankState>
   synthBank: SynthBankState
   effects: EffectsState

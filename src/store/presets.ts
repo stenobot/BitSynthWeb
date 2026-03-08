@@ -13,6 +13,8 @@ const SYNTH_OFF: SynthBankState = {
 export const PRESETS: Preset[] = [
   {
     name: 'Wheelie\'s Lament',
+    masterPitch: 1.0,
+    pitchSnapEnabled: true,
     soundBanks: {
       p1: { volume: 'high', pitch: 2.0 },
       p2: { volume: 'low', pitch: 1.0 },
@@ -27,6 +29,8 @@ export const PRESETS: Preset[] = [
   },
   {
     name: 'World on Fire',
+    masterPitch: 1.0,
+    pitchSnapEnabled: true,
     soundBanks: {
       p1: { volume: 'high', pitch: 1.0 },
       p2: { volume: 'off', pitch: 1.0 },
@@ -48,6 +52,8 @@ export const PRESETS: Preset[] = [
   },
   {
     name: 'Death Math',
+    masterPitch: 1.0,
+    pitchSnapEnabled: true,
     soundBanks: {
       p1: { volume: 'high', pitch: 2.0 },
       p2: { volume: 'off', pitch: 1.0 },
@@ -69,6 +75,8 @@ export const PRESETS: Preset[] = [
   },
   {
     name: 'Angelo',
+    masterPitch: 1.0,
+    pitchSnapEnabled: true,
     soundBanks: {
       p1: { volume: 'off', pitch: 1.0 },
       p2: { volume: 'low', pitch: 1.0 },
@@ -90,6 +98,8 @@ export const PRESETS: Preset[] = [
   },
   {
     name: 'I Want To Believe',
+    masterPitch: 1.0,
+    pitchSnapEnabled: true,
     soundBanks: {
       p1: { volume: 'off', pitch: 1.0 },
       p2: { volume: 'off', pitch: 1.0 },
@@ -104,6 +114,8 @@ export const PRESETS: Preset[] = [
   },
   {
     name: 'Happy Accident',
+    masterPitch: 1.0,
+    pitchSnapEnabled: true,
     soundBanks: {
       p1: { volume: 'off', pitch: 1.0 },
       p2: { volume: 'high', pitch: 1.5 },
@@ -118,6 +130,8 @@ export const PRESETS: Preset[] = [
   },
   {
     name: "Asterix's Idea",
+    masterPitch: 1.0,
+    pitchSnapEnabled: true,
     soundBanks: {
       p1: { volume: 'off', pitch: 1.0 },
       p2: { volume: 'off', pitch: 1.0 },
@@ -139,6 +153,8 @@ export const PRESETS: Preset[] = [
   },
   {
     name: 'Corporate Anthem',
+    masterPitch: 1.0,
+    pitchSnapEnabled: true,
     soundBanks: {
       p1: { volume: 'high', pitch: 1.0 },
       p2: { volume: 'high', pitch: 1.5 },
@@ -153,6 +169,8 @@ export const PRESETS: Preset[] = [
   },
   {
     name: 'Script Kitties',
+    masterPitch: 0.7,
+    pitchSnapEnabled: false,
     soundBanks: {
       p1: { volume: 'off', pitch: 1.0 },
       p2: { volume: 'high', pitch: 1.0 },
