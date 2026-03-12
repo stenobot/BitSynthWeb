@@ -7,24 +7,25 @@ import './DisplayScreen.css'
 export function DisplayScreen() {
   const displayMessage = useSynthStore((state) => state.displayMessage)
   const [showIntro, setShowIntro] = useState(true)
-  const introRef = useRef<HTMLSpanElement>(null)
+  const initialMessage = useRef(displayMessage)
 
+  // Auto-dismiss intro after 4 seconds
   useEffect(() => {
-    const el = introRef.current
-    if (!el) return
+    const timer = setTimeout(() => setShowIntro(false), 4000)
+    return () => clearTimeout(timer)
+  }, [])
 
-    const handleAnimationEnd = () => {
+  // Dismiss intro immediately when displayMessage changes
+  useEffect(() => {
+    if (displayMessage !== initialMessage.current) {
       setShowIntro(false)
     }
-
-    el.addEventListener('animationend', handleAnimationEnd)
-    return () => el.removeEventListener('animationend', handleAnimationEnd)
-  }, [])
+  }, [displayMessage])
 
   return (
     <div className="display-screen">
       {showIntro ? (
-        <span ref={introRef} className="display-screen__text display-screen__text--intro">
+        <span className="display-screen__text display-screen__text--intro">
           BitSynth v{APP_VERSION}
         </span>
       ) : (

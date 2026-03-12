@@ -25,7 +25,10 @@
 }
 
 .display-screen__text--intro {
-  animation: marquee-scroll 4s linear forwards;
+  animation: none;
+  padding-left: 0;
+  width: 100%;
+  text-align: center;
 }
 
 @keyframes marquee-scroll {
