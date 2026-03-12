@@ -8,6 +8,8 @@ import { SoundBankControl } from './SoundBankControl'
 import { SynthBankControl } from './SynthBankControl'
 import { EffectsPanel } from './EffectsPanel'
 import { SavePresetDialog } from './SavePresetDialog'
+import { LoopControls } from './LoopControls'
+import { CountdownOverlay } from './CountdownOverlay'
 import { SOUND_BANKS } from '../../types'
 import type { SoundBankId } from '../../types'
 import './ControlPanel.css'
@@ -90,6 +92,7 @@ export function ControlPanel() {
         <h1 className="logo">BitSynth</h1>
         <DisplayScreen />
         <PitchControl />
+        <LoopControls />
       </div>
 
       <div className="control-panel__scroll">
@@ -143,6 +146,7 @@ export function ControlPanel() {
         </div>
       </div>
       <SavePresetDialog />
+      <CountdownOverlay />
     </div>
   )
 }

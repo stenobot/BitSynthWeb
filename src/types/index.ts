@@ -107,3 +107,15 @@ export const SYNTH_RELEASE_MIN = 0.1
 export const SYNTH_RELEASE_MAX = 2.0
 
 export const WAVEFORMS: WaveformType[] = ['sawtooth', 'square', 'triangle', 'sine']
+
+// Loop recording types
+export interface NoteEvent {
+  type: 'press' | 'release'
+  noteIndex: number // 0-43
+  time: number      // ms elapsed since recording started
+}
+
+export interface Recording {
+  events: NoteEvent[]
+  duration: number // total loop length in ms
+}

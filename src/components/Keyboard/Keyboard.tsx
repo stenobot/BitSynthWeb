@@ -1,5 +1,6 @@
 import { useCallback, useRef, useEffect } from 'react'
 import { useSynthStore } from '../../store/synthStore'
+import { useLoopStore } from '../../store/loopStore'
 import { getAudioEngine } from '../../App'
 import { Key } from './Key'
 import { NOTE_NAMES } from '../../types'
@@ -75,11 +76,13 @@ export function Keyboard() {
       engine.playNote(index)
     }
     pressKey(index)
+    useLoopStore.getState().recordEvent('press', index)
   }, [pressKey])
 
   const handleNoteOff = useCallback((index: number) => {
     releaseKey(index)
     getAudioEngine()?.stopNote(index)
+    useLoopStore.getState().recordEvent('release', index)
   }, [releaseKey])
 
   // Pointer event handlers for touch slide support
