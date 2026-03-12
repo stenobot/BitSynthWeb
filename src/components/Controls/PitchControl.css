@@ -10,8 +10,8 @@
 }
 
 .pitch-control__snap-btn {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border: none;
   border-radius: 3px;
   background: var(--color-control-bg);
@@ -55,13 +55,13 @@
 }
 
 .pitch-control__slider::-webkit-slider-runnable-track {
-  height: 18px;
+  height: 22px;
   border-radius: 2px;
   background: linear-gradient(90deg, #848484, #686868);
 }
 
 .pitch-control__slider::-moz-range-track {
-  height: 18px;
+  height: 22px;
   border-radius: 2px;
   border: none;
   background: linear-gradient(90deg, #848484, #686868);
@@ -71,7 +71,7 @@
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
-  height: 14px;
+  height: 18px;
   background: #424242;
   cursor: pointer;
   border: none;
@@ -83,7 +83,7 @@
   -moz-appearance: none;
   appearance: none;
   width: 20px;
-  height: 14px;
+  height: 18px;
   background: #424242;
   cursor: pointer;
   border: none;

@@ -37,20 +37,18 @@ export function PitchControl() {
   }
 
   const handlePointerDown = () => {
-    console.log('Pointer down - start dragging')
     isDraggingRef.current = true
-  }
-
-  const handlePointerUp = () => {
-    if (isDraggingRef.current) {
-      isDraggingRef.current = false
-      // Only snap if snapping is enabled
-      if (pitchSnapEnabled) {
-        justResetRef.current = true
-        setMasterPitch(1.0)
-        console.log('Pointer up - reset pitch to normal')
+    const onPointerUp = () => {
+      if (isDraggingRef.current) {
+        isDraggingRef.current = false
+        const { pitchSnapEnabled: snapEnabled } = useSynthStore.getState()
+        if (snapEnabled) {
+          justResetRef.current = true
+          setMasterPitch(1.0)
+        }
       }
     }
+    window.addEventListener('pointerup', onPointerUp, { once: true })
   }
 
   const handleToggleSnap = () => {
@@ -71,7 +69,6 @@ export function PitchControl() {
           value={Math.log2(masterPitch)}
           onChange={handlePitchChange}
           onPointerDown={handlePointerDown}
-          onPointerUp={handlePointerUp}
           className="pitch-control__slider"
         />
         <button 
