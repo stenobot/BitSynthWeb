@@ -140,6 +140,7 @@ export function Keyboard() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.repeat) return
+      if (useSynthStore.getState().showSaveDialog) return
       const index = KEY_MAP[e.key.toLowerCase()]
       if (index !== undefined && !pressedKeys.has(index)) {
         handleNoteOn(index)
@@ -147,6 +148,7 @@ export function Keyboard() {
     }
 
     const handleKeyUp = (e: KeyboardEvent) => {
+      if (useSynthStore.getState().showSaveDialog) return
       const index = KEY_MAP[e.key.toLowerCase()]
       if (index !== undefined) {
         handleNoteOff(index)

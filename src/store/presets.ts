@@ -1,5 +1,7 @@
 import type { Preset, SynthBankState } from '../types'
 
+const STORAGE_KEY = 'bitsynth-presets'
+
 const SYNTH_OFF: SynthBankState = {
   volume: 'off',
   waveform: 'sawtooth',
@@ -10,7 +12,7 @@ const SYNTH_OFF: SynthBankState = {
 }
 
 // Presets ported from BitSynthPlus\Services\PresetInitializer.cs
-export const PRESETS: Preset[] = [
+export const DEFAULT_PRESETS: Preset[] = [
   {
     name: 'Wheelie\'s Lament',
     masterPitch: 1.0,
@@ -191,3 +193,36 @@ export const PRESETS: Preset[] = [
     }
   }
 ]
+
+function loadSavedPresets(): Record<string, Preset> {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored) {
+      return JSON.parse(stored)
+    }
+  } catch {
+    // ignore corrupt data
+  }
+  return {}
+}
+
+function loadPresets(): Preset[] {
+  const saved = loadSavedPresets()
+  return DEFAULT_PRESETS.map((preset, index) => {
+    const override = saved[String(index)]
+    return override ?? preset
+  })
+}
+
+export function savePreset(index: number, preset: Preset): void {
+  const saved = loadSavedPresets()
+  saved[String(index)] = preset
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(saved))
+  // Refresh the in-memory array
+  const freshPresets = loadPresets()
+  for (let i = 0; i < PRESETS.length; i++) {
+    PRESETS[i] = freshPresets[i]
+  }
+}
+
+export let PRESETS: Preset[] = loadPresets()

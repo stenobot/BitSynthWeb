@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 import type { SoundBankId, SoundBankState, SynthBankState, EffectsState, VolumeLevel, WaveformType } from '../types'
-import { PRESETS } from './presets'
+import { PRESETS, savePreset } from './presets'
 
 interface AppState {
   // Loading state
@@ -13,7 +13,11 @@ interface AppState {
   masterVolume: number // 0-11
   masterPitch: number // 0.5 (octave down) to 2.0 (octave up), 1.0 = normal
   pitchSnapEnabled: boolean // Whether pitch snaps back to normal on release
-  activePreset: number // 0-5
+  activePreset: number // 0-8
+
+  // Preset save state
+  presetModified: boolean
+  showSaveDialog: boolean
 
   // Display screen message
   displayMessage: string
@@ -55,14 +59,16 @@ interface AppState {
   setReverbDensity: (density: number) => void
   setReverbGain: (gain: number) => void
   applyPreset: (presetIndex: number) => void
+  setShowSaveDialog: (show: boolean) => void
+  saveCurrentAsPreset: (name: string) => void
   pressKey: (keyIndex: number) => void
   releaseKey: (keyIndex: number) => void
 }
 
 export const useSynthStore = create<AppState>()(
-  subscribeWithSelector((set) => {
+  subscribeWithSelector((set, get) => {
     const firstPreset = PRESETS[0]
-    
+
     return {
     // Initial state using Preset 0
     isLoading: true,
@@ -72,6 +78,8 @@ export const useSynthStore = create<AppState>()(
     masterPitch: 1.0,
     pitchSnapEnabled: true,
     activePreset: 0,
+    presetModified: false,
+    showSaveDialog: false,
     displayMessage: `Preset: ${firstPreset.name}`,
 
     soundBanks: { ...firstPreset.soundBanks },
@@ -84,17 +92,18 @@ export const useSynthStore = create<AppState>()(
     setLoading: (loading) => set({ isLoading: loading }),
     setLoadProgress: (progress) => set({ loadProgress: progress }),
     setLoadingBankLabel: (label) => set({ loadingBankLabel: label }),
-    setMasterVolume: (volume) => set({ masterVolume: volume, displayMessage: `Master Vol: ${volume}` }),
+    setMasterVolume: (volume) => set({ masterVolume: volume, presetModified: true, displayMessage: `Master Vol: ${volume}` }),
 
-    setMasterPitch: (pitch) => set({ masterPitch: pitch, displayMessage: `Pitch: ${(pitch * 12).toFixed(1)} semitones` }),
+    setMasterPitch: (pitch) => set({ masterPitch: pitch }),
 
-    setPitchSnapEnabled: (enabled) => set({ pitchSnapEnabled: enabled }),
+    setPitchSnapEnabled: (enabled) => set({ pitchSnapEnabled: enabled, presetModified: true }),
 
     setSoundBankVolume: (bank, volume) => set((state) => ({
       soundBanks: {
         ...state.soundBanks,
         [bank]: { ...state.soundBanks[bank], volume }
       },
+      presetModified: true,
       displayMessage: `${bank.toUpperCase()} Volume: ${volume}`
     })),
 
@@ -103,37 +112,44 @@ export const useSynthStore = create<AppState>()(
         ...state.soundBanks,
         [bank]: { ...state.soundBanks[bank], pitch }
       },
+      presetModified: true,
       displayMessage: `${bank.toUpperCase()} Pitch: ${pitch}x`
     })),
 
     // Synth bank actions
     setSynthBankVolume: (volume) => set((state) => ({
       synthBank: { ...state.synthBank, volume },
+      presetModified: true,
       displayMessage: `Synth Volume: ${volume}`
     })),
 
     setSynthBankWaveform: (waveform) => set((state) => ({
       synthBank: { ...state.synthBank, waveform },
+      presetModified: true,
       displayMessage: `Synth Wave: ${waveform}`
     })),
 
     setSynthBankFilterCutoff: (filterCutoff) => set((state) => ({
       synthBank: { ...state.synthBank, filterCutoff },
+      presetModified: true,
       displayMessage: `Synth Filter: ${filterCutoff} Hz`
     })),
 
     setSynthBankFilterQ: (filterQ) => set((state) => ({
       synthBank: { ...state.synthBank, filterQ },
+      presetModified: true,
       displayMessage: `Synth Resonance: ${filterQ}`
     })),
 
     setSynthBankAttack: (attack) => set((state) => ({
       synthBank: { ...state.synthBank, attack },
+      presetModified: true,
       displayMessage: `Synth Attack: ${attack}s`
     })),
 
     setSynthBankRelease: (release) => set((state) => ({
       synthBank: { ...state.synthBank, release },
+      presetModified: true,
       displayMessage: `Synth Release: ${release}s`
     })),
 
@@ -142,6 +158,7 @@ export const useSynthStore = create<AppState>()(
         ...state.effects,
         echo: { ...state.effects.echo, enabled }
       },
+      presetModified: true,
       displayMessage: `Echo: ${enabled ? 'On' : 'Off'}`
     })),
 
@@ -150,6 +167,7 @@ export const useSynthStore = create<AppState>()(
         ...state.effects,
         echo: { ...state.effects.echo, delay }
       },
+      presetModified: true,
       displayMessage: `Echo Delay: ${delay}ms`
     })),
 
@@ -158,6 +176,7 @@ export const useSynthStore = create<AppState>()(
         ...state.effects,
         echo: { ...state.effects.echo, feedback }
       },
+      presetModified: true,
       displayMessage: `Echo Feedback: ${feedback}`
     })),
 
@@ -166,6 +185,7 @@ export const useSynthStore = create<AppState>()(
         ...state.effects,
         reverb: { ...state.effects.reverb, enabled }
       },
+      presetModified: true,
       displayMessage: `Reverb: ${enabled ? 'On' : 'Off'}`
     })),
 
@@ -174,6 +194,7 @@ export const useSynthStore = create<AppState>()(
         ...state.effects,
         reverb: { ...state.effects.reverb, decayTime: decay }
       },
+      presetModified: true,
       displayMessage: `Reverb Decay: ${decay}`
     })),
 
@@ -182,6 +203,7 @@ export const useSynthStore = create<AppState>()(
         ...state.effects,
         reverb: { ...state.effects.reverb, density }
       },
+      presetModified: true,
       displayMessage: `Reverb Density: ${density}`
     })),
 
@@ -190,6 +212,7 @@ export const useSynthStore = create<AppState>()(
         ...state.effects,
         reverb: { ...state.effects.reverb, gain }
       },
+      presetModified: true,
       displayMessage: `Reverb Gain: ${gain}`
     })),
 
@@ -199,12 +222,33 @@ export const useSynthStore = create<AppState>()(
 
       set({
         activePreset: presetIndex,
+        presetModified: false,
         masterPitch: preset.masterPitch,
         pitchSnapEnabled: preset.pitchSnapEnabled,
         soundBanks: { ...preset.soundBanks },
         synthBank: { ...preset.synthBank },
         effects: { ...preset.effects },
         displayMessage: `Preset: ${preset.name}`
+      })
+    },
+
+    setShowSaveDialog: (show) => set({ showSaveDialog: show }),
+
+    saveCurrentAsPreset: (name) => {
+      const state = get()
+      const preset = {
+        name,
+        masterPitch: state.masterPitch,
+        pitchSnapEnabled: state.pitchSnapEnabled,
+        soundBanks: { ...state.soundBanks },
+        synthBank: { ...state.synthBank },
+        effects: { ...state.effects },
+      }
+      savePreset(state.activePreset, preset)
+      set({
+        presetModified: false,
+        showSaveDialog: false,
+        displayMessage: `Saved: ${name}`
       })
     },
 

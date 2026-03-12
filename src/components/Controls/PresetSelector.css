@@ -16,6 +16,16 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.preset-button__save-icon {
+  width: 24px;
+  height: 24px;
+  filter: invert(1);
 }
 
 .preset-button:hover {
@@ -30,6 +40,16 @@
 .preset-button--active:hover {
   background: var(--color-accent);
   color: #000;
+}
+
+.preset-button--modified {
+  background: #9c27b0;
+  color: #fff;
+}
+
+.preset-button--modified:hover {
+  background: #b040c8;
+  color: #fff;
 }
 
 /* @media (max-width: 600px) {
