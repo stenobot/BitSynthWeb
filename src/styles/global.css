@@ -24,7 +24,7 @@
   --white-key-width: calc((100vw - 40px) / 11);
   --white-key-height: 200px;
   --black-key-width: var(--white-key-width);
-  --black-key-height: 110px;
+  --black-key-height: 95px;
   --control-height: 200px;
 
   /* Font */
@@ -67,6 +67,7 @@ button, .key, .slider {
   :root {
     --white-key-width: calc((100vw - 40px) / 7);
     --black-key-width: var(--white-key-width);
+    --black-key-height: 95px;
   }
 }
 
@@ -74,6 +75,7 @@ button, .key, .slider {
   :root {
     --white-key-width: calc((100vw - 40px) / 11);
     --black-key-width: var(--white-key-width);
+    --black-key-height: 95px;
   }
 }
 
@@ -81,6 +83,7 @@ button, .key, .slider {
   :root {
     --white-key-width: calc((100vw - 40px) / 18);
     --black-key-width: var(--white-key-width);
+    --black-key-height: 95px;
   }
 }
 
@@ -88,6 +91,7 @@ button, .key, .slider {
   :root {
     --white-key-width: calc((100vw - 40px) / 21);
     --black-key-width: calc(var(--white-key-width) * 0.7);
+    --black-key-height: 110px;
   }
 }
 
@@ -95,6 +99,7 @@ button, .key, .slider {
   :root {
     --white-key-width: calc((100vw - 40px) / 23);
     --black-key-width: calc(var(--white-key-width) * 0.7);
+    --black-key-height: 110px;
   }
 }
 
@@ -102,6 +107,7 @@ button, .key, .slider {
   :root {
     --white-key-width: calc((100vw - 40px) / 23);
     --black-key-width: calc(var(--white-key-width) * 0.7);
+    --black-key-height: 110px;
   }
 }
 
