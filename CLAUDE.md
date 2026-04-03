@@ -58,5 +58,6 @@ Service worker caches all assets including 176 audio samples (~3MB). App is inst
 - Note naming format: `{octave}{note}{sharp}` (e.g., `2csharp`)
 - All TypeScript types in `src/types/index.ts`
 - Functional components with hooks only (no class components)
-- Mobile-first responsive design with breakpoints at 600px, 1300px, 1680px
+- Mobile-first responsive design with width breakpoints at 480px, 600px, 950px, 1300px, 1440px, 1680px and a height breakpoint at 424px
+- Keyboard sizing is controlled via CSS custom properties in `src/styles/global.css` — black keys are full white-key width below 1300px (mobile/tablet) and 70% width on desktop (1300px+)
 - Retro aesthetic: "Early GameBoy" font, green accent (#80b027), LCD-style display

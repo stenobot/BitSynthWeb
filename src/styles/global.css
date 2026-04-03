@@ -23,7 +23,7 @@
   /* Sizing */
   --white-key-width: calc((100vw - 40px) / 11);
   --white-key-height: 200px;
-  --black-key-width: calc(var(--white-key-width) * 0.7);
+  --black-key-width: var(--white-key-width);
   --black-key-height: 110px;
   --control-height: 200px;
 
@@ -66,21 +66,21 @@ button, .key, .slider {
 @media (max-width: 479px) {
   :root {
     --white-key-width: calc((100vw - 40px) / 7);
-    --black-key-width: calc(var(--white-key-width) * 0.7);
+    --black-key-width: var(--white-key-width);
   }
 }
 
 @media (min-width: 480px) and (max-width: 599px) {
   :root {
     --white-key-width: calc((100vw - 40px) / 11);
-    --black-key-width: calc(var(--white-key-width) * 0.7);
+    --black-key-width: var(--white-key-width);
   }
 }
 
 @media (min-width: 950px) and (max-width: 1299px) {
   :root {
     --white-key-width: calc((100vw - 40px) / 18);
-    --black-key-width: calc(var(--white-key-width) * 0.7);
+    --black-key-width: var(--white-key-width);
   }
 }
 
