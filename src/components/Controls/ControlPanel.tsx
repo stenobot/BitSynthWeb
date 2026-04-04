@@ -9,6 +9,7 @@ import { SynthBankControl } from './SynthBankControl'
 import { EffectsPanel } from './EffectsPanel'
 import { SavePresetDialog } from './SavePresetDialog'
 import { LoopControls } from './LoopControls'
+import { SettingsPanel } from './SettingsPanel'
 import { CountdownOverlay } from './CountdownOverlay'
 import { SOUND_BANKS } from '../../types'
 import type { SoundBankId } from '../../types'
@@ -22,6 +23,7 @@ const BANK_LABELS: Record<SoundBankId, string> = {
 }
 
 export function ControlPanel() {
+  const showSettingsPanel = useSynthStore((s) => s.showSettingsPanel)
   const {
     soundBanks,
     setSoundBankVolume,
@@ -146,6 +148,7 @@ export function ControlPanel() {
         </div>
       </div>
       <SavePresetDialog />
+      {showSettingsPanel && <SettingsPanel />}
       <CountdownOverlay />
     </div>
   )

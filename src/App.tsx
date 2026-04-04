@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { useSynthStore } from './store/synthStore'
 import { AudioEngine } from './audio/AudioEngine'
 import { Keyboard } from './components/Keyboard/Keyboard'
+import { PortraitKeyboard } from './components/Keyboard/PortraitKeyboard'
 import { ControlPanel } from './components/Controls/ControlPanel'
 import { LoadingScreen } from './components/LoadingScreen'
+import { useOrientation } from './hooks/useOrientation'
 import './styles/App.css'
 
 // Global audio engine instance
@@ -15,6 +17,8 @@ export function getAudioEngine(): AudioEngine | null {
 
 function App() {
   const [isReady, setIsReady] = useState(false)
+  const orientation = useOrientation()
+  const experimentalKeyboard = useSynthStore((s) => s.experimentalKeyboard)
   const { isLoading, setLoading, setLoadProgress, setLoadingBankLabel } = useSynthStore()
 
   // Disable right-click context menu for the entire app
@@ -64,7 +68,7 @@ function App() {
   return (
     <div className="app">
       <ControlPanel />
-      <Keyboard />
+      {experimentalKeyboard && orientation === 'portrait' ? <PortraitKeyboard /> : <Keyboard />}
     </div>
   )
 }

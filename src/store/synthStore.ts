@@ -31,6 +31,10 @@ interface AppState {
   // Effects
   effects: EffectsState
 
+  // Settings
+  experimentalKeyboard: boolean
+  showSettingsPanel: boolean
+
   // Active keys for visual feedback
   pressedKeys: Set<number>
 
@@ -61,6 +65,8 @@ interface AppState {
   applyPreset: (presetIndex: number) => void
   setShowSaveDialog: (show: boolean) => void
   saveCurrentAsPreset: (name: string) => void
+  setExperimentalKeyboard: (enabled: boolean) => void
+  setShowSettingsPanel: (show: boolean) => void
   pressKey: (keyIndex: number) => void
   releaseKey: (keyIndex: number) => void
 }
@@ -85,6 +91,9 @@ export const useSynthStore = create<AppState>()(
     soundBanks: { ...firstPreset.soundBanks },
     synthBank: { ...firstPreset.synthBank },
     effects: { ...firstPreset.effects },
+
+    experimentalKeyboard: false,
+    showSettingsPanel: false,
 
     pressedKeys: new Set(),
 
@@ -251,6 +260,9 @@ export const useSynthStore = create<AppState>()(
         displayMessage: `Saved: ${name}`
       })
     },
+
+    setExperimentalKeyboard: (enabled) => set({ experimentalKeyboard: enabled }),
+    setShowSettingsPanel: (show) => set({ showSettingsPanel: show }),
 
     pressKey: (keyIndex) => set((state) => {
       const newSet = new Set(state.pressedKeys)

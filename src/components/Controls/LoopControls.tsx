@@ -1,8 +1,10 @@
 import { useLoopStore } from '../../store/loopStore'
+import { useSynthStore } from '../../store/synthStore'
 import './LoopControls.css'
 
 export function LoopControls() {
   const { recording, isRecording, isPlaying, countdown, startCountdown, stopRecording, togglePlayback } = useLoopStore()
+  const setShowSettingsPanel = useSynthStore((s) => s.setShowSettingsPanel)
 
   const handleRecordClick = () => {
     if (isRecording) {
@@ -42,6 +44,13 @@ export function LoopControls() {
             <polygon points="2,1 2,13 13,7" fill="currentColor" />
           </svg>
         )}
+      </button>
+      <button
+        className="loop-controls__btn"
+        onClick={() => setShowSettingsPanel(true)}
+        title="Settings"
+      >
+        <img src={`${import.meta.env.BASE_URL}images/gear.svg`} alt="Settings" width="18" height="18" style={{ filter: 'invert(1)' }} />
       </button>
     </div>
   )
