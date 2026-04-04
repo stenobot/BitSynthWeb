@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useSynthStore } from '../../store/synthStore'
 import { Visualizer } from './Visualizer'
-import { APP_VERSION } from '../../version'
 import './DisplayScreen.css'
 
 export function DisplayScreen() {
@@ -26,7 +25,7 @@ export function DisplayScreen() {
     <div className="display-screen">
       {showIntro ? (
         <span className="display-screen__text display-screen__text--intro">
-          BitSynth v{APP_VERSION}
+          BitSynth v{__APP_VERSION__}
         </span>
       ) : (
         <span className="display-screen__text">
