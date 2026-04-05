@@ -92,7 +92,7 @@ export const useSynthStore = create<AppState>()(
     synthBank: { ...firstPreset.synthBank },
     effects: { ...firstPreset.effects },
 
-    experimentalKeyboard: false,
+    experimentalKeyboard: true,
     showSettingsPanel: false,
 
     pressedKeys: new Set(),

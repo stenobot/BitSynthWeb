@@ -115,10 +115,10 @@ export function PortraitKeyboard() {
       >
         {/* White keys first (behind black keys) */}
         {whiteKeys.map(key => (
-          <polygon
+          <path
             key={key.noteIndex}
             data-note-index={key.noteIndex}
-            points={key.points}
+            d={key.d}
             fill={pressedKeys.has(key.noteIndex) ? '#80b027' : '#ffffff'}
             stroke="#ccc"
             strokeWidth="0.5"
@@ -128,10 +128,10 @@ export function PortraitKeyboard() {
 
         {/* Black keys on top */}
         {blackKeys.map(key => (
-          <polygon
+          <path
             key={key.noteIndex}
             data-note-index={key.noteIndex}
-            points={key.points}
+            d={key.d}
             fill={pressedKeys.has(key.noteIndex) ? '#80b027' : '#1a1a1a'}
             stroke="#333"
             strokeWidth="0.5"
