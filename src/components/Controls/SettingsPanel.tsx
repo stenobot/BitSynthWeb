@@ -1,4 +1,5 @@
 import { useSynthStore } from '../../store/synthStore'
+import { restoreDefaultPresets } from '../../store/presets'
 import './SettingsPanel.css'
 
 export function SettingsPanel() {
@@ -22,7 +23,7 @@ export function SettingsPanel() {
         <div className="settings-panel__body">
           <label className="settings-panel__toggle">
             <span className="settings-panel__label">
-              Experimental keyboard
+              S-shaped keyboard
               <span className="settings-panel__sublabel">(portrait orientation only)</span>
             </span>
             <div
@@ -32,6 +33,12 @@ export function SettingsPanel() {
               <div className="settings-panel__switch-thumb" />
             </div>
           </label>
+          <button
+            className="settings-panel__restore-btn"
+            onClick={restoreDefaultPresets}
+          >
+            Restore default presets
+          </button>
         </div>
       </div>
     </div>

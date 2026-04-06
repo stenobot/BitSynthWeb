@@ -225,4 +225,11 @@ export function savePreset(index: number, preset: Preset): void {
   }
 }
 
+export function restoreDefaultPresets(): void {
+  localStorage.removeItem(STORAGE_KEY)
+  for (let i = 0; i < PRESETS.length; i++) {
+    PRESETS[i] = DEFAULT_PRESETS[i]
+  }
+}
+
 export let PRESETS: Preset[] = loadPresets()
