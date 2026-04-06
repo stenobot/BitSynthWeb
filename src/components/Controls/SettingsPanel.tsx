@@ -3,7 +3,7 @@ import { restoreDefaultPresets } from '../../store/presets'
 import './SettingsPanel.css'
 
 export function SettingsPanel() {
-  const { experimentalKeyboard, setExperimentalKeyboard, setShowSettingsPanel } = useSynthStore()
+  const { experimentalKeyboard, setExperimentalKeyboard, setShowSettingsPanel, applyPreset } = useSynthStore()
 
   return (
     <div className="settings-overlay" onClick={() => setShowSettingsPanel(false)}>
@@ -35,7 +35,7 @@ export function SettingsPanel() {
           </label>
           <button
             className="settings-panel__restore-btn"
-            onClick={restoreDefaultPresets}
+            onClick={() => { restoreDefaultPresets(); applyPreset(0); setShowSettingsPanel(false) }}
           >
             Restore default presets
           </button>
