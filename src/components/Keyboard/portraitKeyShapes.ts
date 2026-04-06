@@ -28,8 +28,8 @@ export const PORTRAIT_KEYS: PortraitKey[] = [
   { noteIndex: 12, isBlack: false, d: 'M8,0 Q0,0 0,8 V33 H17.5 A2.5,2.5 0 0,1 20,30.5 V0 Z' },   // F
 
   // Black keys (14 wide, height 13)
-  { noteIndex: 8,  isBlack: true, d: 'M50,0 H71 L70,11 A2,2 0 0,1 68,13 H53 A2,2 0 0,1 51,11 Z' }, // C#
-  { noteIndex: 10, isBlack: true, d: 'M29,0 H49 L48,11 A2,2 0 0,1 46,13 H32 A2,2 0 0,1 30,11 Z' }, // D#
+  { noteIndex: 8,  isBlack: true, d: 'M50,0 H71 L70,9 A2,2 0 0,1 68,11 H53 A2,2 0 0,1 51,9 Z' },   // C#
+  { noteIndex: 10, isBlack: true, d: 'M29,0 H49 L48,9 A2,2 0 0,1 46,11 H32 A2,2 0 0,1 30,9 Z' },   // D#
   // F# at the corner transition between F and G
   { noteIndex: 13, isBlack: true, d: 'M0,20 L8,20.889 A2,2 0 0,1 9,22.889 V38 A2,2 0 0,1 7,40 L0,41 Z' }, // F#
 
