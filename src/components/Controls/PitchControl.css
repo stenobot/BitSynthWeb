@@ -1,56 +1,15 @@
 .pitch-control {
+  display: flex;
   flex-direction: column;
   gap: 6px;
-}
-
-.pitch-control__slider-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.pitch-control__snap-btn {
-  width: 22px;
-  height: 22px;
-  border: none;
-  border-radius: 3px;
-  background: var(--color-control-bg);
-  color: var(--color-text);
-  cursor: pointer;
-  transition: background-color 0.1s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  flex-shrink: 0;
-}
-
-.pitch-control__snap-icon {
-  width: 12px;
-  height: 12px;
-  filter: invert(1);
-}
-
-.pitch-control__snap-btn:hover {
-  background: var(--color-control-border);
-}
-
-.pitch-control__snap-btn--active {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-  color: #000;
-}
-
-.pitch-control__snap-btn--active:hover {
-  background: var(--color-accent);
+  width: 160px;
 }
 
 .pitch-control__slider {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  flex: 1;
-  width: 4em;
+  width: 100%;
   background: transparent;
 }
 

@@ -3,7 +3,7 @@ import { restoreDefaultPresets } from '../../store/presets'
 import './SettingsPanel.css'
 
 export function SettingsPanel() {
-  const { experimentalKeyboard, setExperimentalKeyboard, setShowSettingsPanel, applyPreset } = useSynthStore()
+  const { experimentalKeyboard, setExperimentalKeyboard, pitchSnapEnabled, setPitchSnapEnabled, setShowSettingsPanel, applyPreset } = useSynthStore()
 
   return (
     <div className="settings-overlay" onClick={() => setShowSettingsPanel(false)}>
@@ -24,11 +24,23 @@ export function SettingsPanel() {
           <label className="settings-panel__toggle">
             <span className="settings-panel__label">
               Experimental keyboard
-              <span className="settings-panel__sublabel">(A unique keyboard layout for phones in portrait &amp; landscape)</span>
+              <span className="settings-panel__sublabel">Unique layouts for phone in portrait &amp; landscape</span>
             </span>
             <div
               className={`settings-panel__switch ${experimentalKeyboard ? 'settings-panel__switch--on' : ''}`}
               onClick={() => setExperimentalKeyboard(!experimentalKeyboard)}
+            >
+              <div className="settings-panel__switch-thumb" />
+            </div>
+          </label>
+          <label className="settings-panel__toggle">
+            <span className="settings-panel__label">
+              Pitch lock
+              <span className="settings-panel__sublabel">Snap pitch back to normal on release</span>
+            </span>
+            <div
+              className={`settings-panel__switch ${pitchSnapEnabled ? 'settings-panel__switch--on' : ''}`}
+              onClick={() => setPitchSnapEnabled(!pitchSnapEnabled)}
             >
               <div className="settings-panel__switch-thumb" />
             </div>

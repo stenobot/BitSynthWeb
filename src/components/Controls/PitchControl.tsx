@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import './PitchControl.css'
 
 export function PitchControl() {
-  const { masterPitch, setMasterPitch, pitchSnapEnabled, setPitchSnapEnabled } = useSynthStore()
+  const { masterPitch, setMasterPitch, pitchSnapEnabled } = useSynthStore()
   const isDraggingRef = useRef(false)
   const justResetRef = useRef(false)
   const prevSnapEnabledRef = useRef(pitchSnapEnabled)
@@ -51,38 +51,21 @@ export function PitchControl() {
     window.addEventListener('pointerup', onPointerUp, { once: true })
   }
 
-  const handleToggleSnap = () => {
-    setPitchSnapEnabled(!pitchSnapEnabled)
-  }
-
   const semitones = Math.log2(masterPitch) * 12
   const displayPitch = semitones === 0 ? 'Normal' : `${semitones > 0 ? '+' : ''}${semitones.toFixed(1)}`
 
   return (
     <div className="pitch-control">
-      <div className="pitch-control__slider-row">
-        <input
-          type="range"
-          min="-1"
-          max="1"
-          step="0.01"
-          value={Math.log2(masterPitch)}
-          onChange={handlePitchChange}
-          onPointerDown={handlePointerDown}
-          className="pitch-control__slider"
-        />
-        <button 
-          className={`pitch-control__snap-btn ${pitchSnapEnabled ? 'pitch-control__snap-btn--active' : ''}`}
-          onClick={handleToggleSnap}
-          title={pitchSnapEnabled ? 'Locking enabled' : 'Locking disabled'}
-        >
-          <img 
-            src={pitchSnapEnabled ? '/images/lock.svg' : '/images/unlock.svg'}
-            alt={pitchSnapEnabled ? 'Lock' : 'Unlock'}
-            className="pitch-control__snap-icon"
-          />
-        </button>
-      </div>
+      <input
+        type="range"
+        min="-1"
+        max="1"
+        step="0.01"
+        value={Math.log2(masterPitch)}
+        onChange={handlePitchChange}
+        onPointerDown={handlePointerDown}
+        className="pitch-control__slider"
+      />
       <span className="pitch-control__value">Pitch: {displayPitch}</span>
     </div>
   )
