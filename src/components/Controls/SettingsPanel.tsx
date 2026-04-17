@@ -23,8 +23,8 @@ export function SettingsPanel() {
         <div className="settings-panel__body">
           <label className="settings-panel__toggle">
             <span className="settings-panel__label">
-              S-shaped keyboard
-              <span className="settings-panel__sublabel">(portrait orientation only)</span>
+              Experimental keyboard
+              <span className="settings-panel__sublabel">(A unique keyboard layout for phones in portrait &amp; landscape)</span>
             </span>
             <div
               className={`settings-panel__switch ${experimentalKeyboard ? 'settings-panel__switch--on' : ''}`}

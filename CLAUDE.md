@@ -20,7 +20,7 @@ Deployment is automated via GitHub Actions on push to `main` → GitHub Pages.
 ## Tech Stack
 
 - React 18 + TypeScript (strict mode) + Vite
-- Zustand for state management (single store with `subscribeWithSelector`)
+- Zustand for state management (two stores: `synthStore` with `subscribeWithSelector`, `loopStore`)
 - Web Audio API for audio synthesis and sample playback
 - vite-plugin-pwa for offline/installable PWA support
 
@@ -39,14 +39,34 @@ Banks & Synth → Master Gain → Dry → Destination
                              → Wet → Echo → Reverb → Destination
 ```
 
-### State Management (`src/store/synthStore.ts`)
-Single Zustand store (`useSynthStore`) holds all synth parameters, active keys, and preset data. The ControlPanel component syncs store state → AudioEngine via useEffect hooks. Store actions also update the display screen message.
+### State Management
+Two Zustand stores:
+
+- **`src/store/synthStore.ts`** (`useSynthStore`): All synth parameters, active keys, preset data, and UI state. Store actions also update the display screen message. **ControlPanel is the only bridge between this store and AudioEngine** — it has useEffect hooks that push state changes into the engine whenever store slices change.
+- **`src/store/loopStore.ts`** (`useLoopStore`): Loop recorder/playback. Records note press/release events with timestamps, persists to `localStorage`, plays back in a looping setTimeout-based scheduler. Uses module-level mutable variables (not Zustand) for in-flight recording/playback state to avoid unnecessary re-renders. Accesses the audio engine via `getAudioEngine()` imported from `App.tsx`.
 
 ### Keyboard (`src/components/Keyboard/`)
 Touch-enabled piano keyboard using pointer events. Supports multi-touch, slide between keys, and physical keyboard input (ASDF row = white keys, WE/TY/OP = black keys). Pointer capture provides reliable tracking.
 
+Three keyboard variants — `App.tsx` selects among them based on `useOrientation()` hook + `experimentalKeyboard` store flag (toggled in Settings):
+
+- **`Keyboard.tsx`** — default keyboard, used in both orientations when experimental is off
+- **`PortraitKeyboard.tsx`** — experimental S-shaped keyboard for portrait orientation; key shapes defined in `portraitKeyShapes.ts`
+- **`LandscapeKeyboard.tsx`** — experimental split keyboard for landscape orientation; key shapes defined in `landscapeKeyShapes.ts`
+
+The landscape experimental keyboard uses SVG viewBox `0 0 200 75` with `preserveAspectRatio="none"`. Layout:
+- **Left half** (x=0–100): notes 6–17 (B→A#), low-to-high left-to-right; white key widths taper narrow→wide (B=10.86 to A=17.71, step≈1.14)
+- **Right half** (x=100–200): notes 18–29 (B→A#), mirrored right-to-left
+- **Center ellipse** (note 30): single oval key at center (100,35), rx=12 ry=19; the A keys on each side contour around the ellipse arc
+- **Black keys**: 5 upside-down triangle pairs — each pair's two halves share an apex point and together form a downward-pointing triangle; pair 3 (A#17 + A#29) is centered on the ellipse
+
+Hit testing uses `document.elementFromPoint()` + `data-note-index` attributes on SVG `<path>` elements. React keys on paths use index-based `w${i}`/`b${i}` (not noteIndex) to avoid duplicate key warnings.
+
 ### Presets (`src/store/presets.ts`)
-9 named presets that define complete synth state (all bank volumes/pitches, synth params, effects).
+9 named presets that define complete synth state (all bank volumes/pitches, synth params, effects). Custom presets are persisted to `localStorage` under keys `bitsynth-preset-0` through `bitsynth-preset-8`, overlaying the built-in defaults at load time.
+
+### AudioEngine access pattern
+`App.tsx` exports `getAudioEngine(): AudioEngine | null` — a module-level getter for the singleton. Components and stores call this function directly rather than using React context. Always null-check the result since the engine may not yet be initialized.
 
 ### PWA (`vite.config.ts`)
 Service worker caches all assets including 176 audio samples (~3MB). App is installable as standalone.

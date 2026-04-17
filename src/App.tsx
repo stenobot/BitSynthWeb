@@ -3,6 +3,7 @@ import { useSynthStore } from './store/synthStore'
 import { AudioEngine } from './audio/AudioEngine'
 import { Keyboard } from './components/Keyboard/Keyboard'
 import { PortraitKeyboard } from './components/Keyboard/PortraitKeyboard'
+import { LandscapeKeyboard } from './components/Keyboard/LandscapeKeyboard'
 import { ControlPanel } from './components/Controls/ControlPanel'
 import { LoadingScreen } from './components/LoadingScreen'
 import { useOrientation } from './hooks/useOrientation'
@@ -68,7 +69,11 @@ function App() {
   return (
     <div className="app">
       <ControlPanel />
-      {experimentalKeyboard && orientation === 'portrait' ? <PortraitKeyboard /> : <Keyboard />}
+      {experimentalKeyboard && orientation === 'portrait'
+        ? <PortraitKeyboard />
+        : experimentalKeyboard && orientation === 'landscape'
+        ? <LandscapeKeyboard />
+        : <Keyboard />}
     </div>
   )
 }
