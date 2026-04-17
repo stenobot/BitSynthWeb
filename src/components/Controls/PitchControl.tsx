@@ -6,6 +6,7 @@ import './PitchControl.css'
 export function PitchControl() {
   const { masterPitch, setMasterPitch, pitchSnapEnabled } = useSynthStore()
   const sliderRef = useRef<HTMLInputElement>(null)
+  const isDraggingRef = useRef(false)
   const justResetRef = useRef(false)
   const prevSnapEnabledRef = useRef(pitchSnapEnabled)
 
@@ -36,24 +37,29 @@ export function PitchControl() {
     setMasterPitch(pitch)
   }
 
-  const handlePointerUp = () => {
-    const { pitchSnapEnabled: snapEnabled } = useSynthStore.getState()
-    if (snapEnabled) {
-      // Defer to the next animation frame so the browser fully releases its
-      // internal touch-tracking state on the range input before we update the
-      // value. Without this, mobile browsers ignore the programmatic value
-      // change and the thumb doesn't visually snap back until the next
-      // unrelated re-render.
-      requestAnimationFrame(() => {
+  const handlePointerDown = () => {
+    justResetRef.current = false
+    isDraggingRef.current = true
+    const onPointerUp = () => {
+      if (!isDraggingRef.current) return
+      isDraggingRef.current = false
+      const { pitchSnapEnabled: snapEnabled } = useSynthStore.getState()
+      if (snapEnabled) {
         justResetRef.current = true
         setMasterPitch(1.0)
-        // Also set the DOM value directly as a belt-and-suspenders guarantee
-        // in case React's batched re-render is still delayed.
-        if (sliderRef.current) {
-          sliderRef.current.value = '0'
-        }
-      })
+        // On mobile, the browser retains internal touch-tracking state on the
+        // range input even after pointerup fires. This causes it to ignore both
+        // React's controlled value update and direct DOM writes until the touch
+        // cycle fully completes. Deferring to the next animation frame ensures
+        // the browser has released control before we force the visual snap.
+        requestAnimationFrame(() => {
+          if (sliderRef.current) {
+            sliderRef.current.value = '0'
+          }
+        })
+      }
     }
+    window.addEventListener('pointerup', onPointerUp, { once: true })
   }
 
   const semitones = Math.log2(masterPitch) * 12
@@ -69,7 +75,7 @@ export function PitchControl() {
         step="0.01"
         value={Math.log2(masterPitch)}
         onChange={handlePitchChange}
-        onPointerUp={handlePointerUp}
+        onPointerDown={handlePointerDown}
         className="pitch-control__slider"
       />
       <span className="pitch-control__value">Pitch: {displayPitch}</span>
