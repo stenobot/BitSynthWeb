@@ -4,12 +4,18 @@ interface GlobalSettings {
   experimentalKeyboardPortrait: boolean
   experimentalKeyboardLandscape: boolean
   pitchSnapEnabled: boolean
+  showEightBitPanel: boolean
+  showSynthPanel: boolean
+  showEffectsPanel: boolean
 }
 
 const DEFAULTS: GlobalSettings = {
   experimentalKeyboardPortrait: true,
   experimentalKeyboardLandscape: false,
   pitchSnapEnabled: true,
+  showEightBitPanel: true,
+  showSynthPanel: true,
+  showEffectsPanel: true,
 }
 
 function load(): GlobalSettings {

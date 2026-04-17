@@ -35,6 +35,9 @@ interface AppState {
   // Settings
   experimentalKeyboardPortrait: boolean
   experimentalKeyboardLandscape: boolean
+  showEightBitPanel: boolean
+  showSynthPanel: boolean
+  showEffectsPanel: boolean
   showSettingsPanel: boolean
 
   // Active keys for visual feedback
@@ -69,6 +72,9 @@ interface AppState {
   saveCurrentAsPreset: (name: string) => void
   setExperimentalKeyboardPortrait: (enabled: boolean) => void
   setExperimentalKeyboardLandscape: (enabled: boolean) => void
+  setShowEightBitPanel: (show: boolean) => void
+  setShowSynthPanel: (show: boolean) => void
+  setShowEffectsPanel: (show: boolean) => void
   setShowSettingsPanel: (show: boolean) => void
   pressKey: (keyIndex: number) => void
   releaseKey: (keyIndex: number) => void
@@ -97,6 +103,9 @@ export const useSynthStore = create<AppState>()(
 
     experimentalKeyboardPortrait: globalSettings.experimentalKeyboardPortrait,
     experimentalKeyboardLandscape: globalSettings.experimentalKeyboardLandscape,
+    showEightBitPanel: globalSettings.showEightBitPanel,
+    showSynthPanel: globalSettings.showSynthPanel,
+    showEffectsPanel: globalSettings.showEffectsPanel,
     showSettingsPanel: false,
 
     pressedKeys: new Set(),
@@ -273,6 +282,18 @@ export const useSynthStore = create<AppState>()(
     setExperimentalKeyboardLandscape: (enabled) => {
       saveGlobalSettings({ experimentalKeyboardLandscape: enabled })
       set({ experimentalKeyboardLandscape: enabled })
+    },
+    setShowEightBitPanel: (show) => {
+      saveGlobalSettings({ showEightBitPanel: show })
+      set({ showEightBitPanel: show })
+    },
+    setShowSynthPanel: (show) => {
+      saveGlobalSettings({ showSynthPanel: show })
+      set({ showSynthPanel: show })
+    },
+    setShowEffectsPanel: (show) => {
+      saveGlobalSettings({ showEffectsPanel: show })
+      set({ showEffectsPanel: show })
     },
     setShowSettingsPanel: (show) => set({ showSettingsPanel: show }),
 

@@ -71,6 +71,25 @@ Hit testing uses `document.elementFromPoint()` + `data-note-index` attributes on
 ### PWA (`vite.config.ts`)
 Service worker caches all assets including 176 audio samples (~3MB). App is installable as standalone.
 
+### Global Settings (`src/store/globalSettings.ts`)
+Persists user preferences (not preset data) to `localStorage` under the key `bitsynth-settings`. Currently stores `experimentalKeyboardPortrait`, `experimentalKeyboardLandscape`, and `pitchSnapEnabled`. Loaded once at module init; each setter in `synthStore` calls `saveGlobalSettings()` immediately on change.
+
+## Known Bugs & Investigation Notes
+
+### Pitch slider snap-back on touch screens (`src/components/Controls/PitchControl.tsx`)
+
+**Symptom:** When pitch lock (`pitchSnapEnabled`) is on, the slider does not visually snap back to center immediately after the user lifts their finger on a touch screen. It only snapped back when something else triggered a re-render (e.g. pressing a piano key).
+
+**Root cause (confirmed):** `useSynthStore()` without a selector causes `PitchControl` to re-render on *any* store change (including `pressedKeys`). The snap logic (`setMasterPitch(1.0)`) was always executing correctly on `pointerup` — the store updated to `1.0` immediately. The problem is purely visual: mobile browsers retain an internal touch-tracking state on `<input type="range">` even after `pointerup` fires, and during that window they ignore programmatic `value` changes (both from React's reconciler setting the `value` prop and from direct `element.value =` writes). The thumb only moved when the next *unrelated* re-render occurred, by which point the browser had released touch tracking.
+
+**What was tried:**
+
+1. **`onPointerUp` on the element + RAF + direct DOM write** — Made it worse. On mobile, React's synthetic `onPointerUp` on a range input does not reliably fire during touch interactions (the browser handles range inputs natively). Snap stopped working entirely.
+
+2. **`window.addEventListener('pointerup')` + RAF for direct DOM write (current approach)** — Restored the window listener (which does fire reliably on mobile). `setMasterPitch(1.0)` is called synchronously to update the store, then a `requestAnimationFrame` callback sets `sliderRef.current.value = '0'` directly. The RAF fires after the browser exits the touch event cycle, at which point the programmatic value write is accepted and the thumb snaps visually. This approach works on desktop (mouse). **Not yet confirmed working on touch — needs device testing.**
+
+**Key insight for future attempts:** Do not use `onPointerUp` (React synthetic event) on a range input for touch detection — use `window.addEventListener('pointerup')` instead, registered in an `onPointerDown` handler. The direct DOM ref write (`sliderRef.current.value`) is necessary because React's controlled input reconciliation alone is not enough to overcome the browser's touch-active state.
+
 ## Conventions
 
 - Co-located CSS files per component (e.g., `Keyboard.tsx` + `Keyboard.css`)

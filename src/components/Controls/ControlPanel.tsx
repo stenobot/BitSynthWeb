@@ -24,6 +24,9 @@ const BANK_LABELS: Record<SoundBankId, string> = {
 
 export function ControlPanel() {
   const showSettingsPanel = useSynthStore((s) => s.showSettingsPanel)
+  const showEightBitPanel = useSynthStore((s) => s.showEightBitPanel)
+  const showSynthPanel = useSynthStore((s) => s.showSynthPanel)
+  const showEffectsPanel = useSynthStore((s) => s.showEffectsPanel)
   const {
     soundBanks,
     setSoundBankVolume,
@@ -103,49 +106,55 @@ export function ControlPanel() {
           <PresetSelector />
         </div>
 
-        <div className="control-panel__section">
-          <h2>8-Bit</h2>
-          <div className="sound-banks">
-            {SOUND_BANKS.map((bankId) => (
-              <SoundBankControl
-                key={bankId}
-                label={BANK_LABELS[bankId]}
-                volume={soundBanks[bankId].volume}
-                pitch={soundBanks[bankId].pitch}
-                onVolumeChange={(v) => setSoundBankVolume(bankId, v)}
-                onPitchChange={(p) => setSoundBankPitch(bankId, p)}
-              />
-            ))}
+        {showEightBitPanel && (
+          <div className="control-panel__section">
+            <h2>8-Bit</h2>
+            <div className="sound-banks">
+              {SOUND_BANKS.map((bankId) => (
+                <SoundBankControl
+                  key={bankId}
+                  label={BANK_LABELS[bankId]}
+                  volume={soundBanks[bankId].volume}
+                  pitch={soundBanks[bankId].pitch}
+                  onVolumeChange={(v) => setSoundBankVolume(bankId, v)}
+                  onPitchChange={(p) => setSoundBankPitch(bankId, p)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        <div className="control-panel__section">
-          <h2>Synth</h2>
-          <SynthBankControl
-            synthBank={synthBank}
-            onVolumeChange={setSynthBankVolume}
-            onWaveformChange={setSynthBankWaveform}
-            onFilterCutoffChange={setSynthBankFilterCutoff}
-            onFilterQChange={setSynthBankFilterQ}
-            onAttackChange={setSynthBankAttack}
-            onReleaseChange={setSynthBankRelease}
-          />
-        </div>
+        {showSynthPanel && (
+          <div className="control-panel__section">
+            <h2>Synth</h2>
+            <SynthBankControl
+              synthBank={synthBank}
+              onVolumeChange={setSynthBankVolume}
+              onWaveformChange={setSynthBankWaveform}
+              onFilterCutoffChange={setSynthBankFilterCutoff}
+              onFilterQChange={setSynthBankFilterQ}
+              onAttackChange={setSynthBankAttack}
+              onReleaseChange={setSynthBankRelease}
+            />
+          </div>
+        )}
 
-        <div className="control-panel__section">
-          <h2>Effects</h2>
-          <EffectsPanel
-            echo={effects.echo}
-            reverb={effects.reverb}
-            onEchoEnabledChange={setEchoEnabled}
-            onEchoDelayChange={setEchoDelay}
-            onEchoFeedbackChange={setEchoFeedback}
-            onReverbEnabledChange={setReverbEnabled}
-            onReverbDecayChange={setReverbDecay}
-            onReverbDensityChange={setReverbDensity}
-            onReverbGainChange={setReverbGain}
-          />
-        </div>
+        {showEffectsPanel && (
+          <div className="control-panel__section">
+            <h2>Effects</h2>
+            <EffectsPanel
+              echo={effects.echo}
+              reverb={effects.reverb}
+              onEchoEnabledChange={setEchoEnabled}
+              onEchoDelayChange={setEchoDelay}
+              onEchoFeedbackChange={setEchoFeedback}
+              onReverbEnabledChange={setReverbEnabled}
+              onReverbDecayChange={setReverbDecay}
+              onReverbDensityChange={setReverbDensity}
+              onReverbGainChange={setReverbGain}
+            />
+          </div>
+        )}
       </div>
       <SavePresetDialog />
       {showSettingsPanel && <SettingsPanel />}
