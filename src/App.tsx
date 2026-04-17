@@ -19,7 +19,8 @@ export function getAudioEngine(): AudioEngine | null {
 function App() {
   const [isReady, setIsReady] = useState(false)
   const orientation = useOrientation()
-  const experimentalKeyboard = useSynthStore((s) => s.experimentalKeyboard)
+  const experimentalKeyboardPortrait = useSynthStore((s) => s.experimentalKeyboardPortrait)
+  const experimentalKeyboardLandscape = useSynthStore((s) => s.experimentalKeyboardLandscape)
   const { isLoading, setLoading, setLoadProgress, setLoadingBankLabel } = useSynthStore()
 
   // Disable right-click context menu for the entire app
@@ -69,9 +70,9 @@ function App() {
   return (
     <div className="app">
       <ControlPanel />
-      {experimentalKeyboard && orientation === 'portrait'
+      {experimentalKeyboardPortrait && orientation === 'portrait'
         ? <PortraitKeyboard />
-        : experimentalKeyboard && orientation === 'landscape'
+        : experimentalKeyboardLandscape && orientation === 'landscape'
         ? <LandscapeKeyboard />
         : <Keyboard />}
     </div>

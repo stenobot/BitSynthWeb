@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 import type { SoundBankId, SoundBankState, SynthBankState, EffectsState, VolumeLevel, WaveformType } from '../types'
 import { PRESETS, savePreset } from './presets'
+import { globalSettings, saveGlobalSettings } from './globalSettings'
 
 interface AppState {
   // Loading state
@@ -32,7 +33,8 @@ interface AppState {
   effects: EffectsState
 
   // Settings
-  experimentalKeyboard: boolean
+  experimentalKeyboardPortrait: boolean
+  experimentalKeyboardLandscape: boolean
   showSettingsPanel: boolean
 
   // Active keys for visual feedback
@@ -65,7 +67,8 @@ interface AppState {
   applyPreset: (presetIndex: number) => void
   setShowSaveDialog: (show: boolean) => void
   saveCurrentAsPreset: (name: string) => void
-  setExperimentalKeyboard: (enabled: boolean) => void
+  setExperimentalKeyboardPortrait: (enabled: boolean) => void
+  setExperimentalKeyboardLandscape: (enabled: boolean) => void
   setShowSettingsPanel: (show: boolean) => void
   pressKey: (keyIndex: number) => void
   releaseKey: (keyIndex: number) => void
@@ -82,7 +85,7 @@ export const useSynthStore = create<AppState>()(
     loadingBankLabel: '',
     masterVolume: 11,
     masterPitch: 1.0,
-    pitchSnapEnabled: true,
+    pitchSnapEnabled: globalSettings.pitchSnapEnabled,
     activePreset: 0,
     presetModified: false,
     showSaveDialog: false,
@@ -92,7 +95,8 @@ export const useSynthStore = create<AppState>()(
     synthBank: { ...firstPreset.synthBank },
     effects: { ...firstPreset.effects },
 
-    experimentalKeyboard: true,
+    experimentalKeyboardPortrait: globalSettings.experimentalKeyboardPortrait,
+    experimentalKeyboardLandscape: globalSettings.experimentalKeyboardLandscape,
     showSettingsPanel: false,
 
     pressedKeys: new Set(),
@@ -105,7 +109,10 @@ export const useSynthStore = create<AppState>()(
 
     setMasterPitch: (pitch) => set({ masterPitch: pitch }),
 
-    setPitchSnapEnabled: (enabled) => set({ pitchSnapEnabled: enabled, presetModified: true }),
+    setPitchSnapEnabled: (enabled) => {
+      saveGlobalSettings({ pitchSnapEnabled: enabled })
+      set({ pitchSnapEnabled: enabled })
+    },
 
     setSoundBankVolume: (bank, volume) => set((state) => ({
       soundBanks: {
@@ -233,7 +240,6 @@ export const useSynthStore = create<AppState>()(
         activePreset: presetIndex,
         presetModified: false,
         masterPitch: preset.masterPitch,
-        pitchSnapEnabled: preset.pitchSnapEnabled,
         soundBanks: { ...preset.soundBanks },
         synthBank: { ...preset.synthBank },
         effects: { ...preset.effects },
@@ -248,7 +254,6 @@ export const useSynthStore = create<AppState>()(
       const preset = {
         name,
         masterPitch: state.masterPitch,
-        pitchSnapEnabled: state.pitchSnapEnabled,
         soundBanks: { ...state.soundBanks },
         synthBank: { ...state.synthBank },
         effects: { ...state.effects },
@@ -261,7 +266,14 @@ export const useSynthStore = create<AppState>()(
       })
     },
 
-    setExperimentalKeyboard: (enabled) => set({ experimentalKeyboard: enabled }),
+    setExperimentalKeyboardPortrait: (enabled) => {
+      saveGlobalSettings({ experimentalKeyboardPortrait: enabled })
+      set({ experimentalKeyboardPortrait: enabled })
+    },
+    setExperimentalKeyboardLandscape: (enabled) => {
+      saveGlobalSettings({ experimentalKeyboardLandscape: enabled })
+      set({ experimentalKeyboardLandscape: enabled })
+    },
     setShowSettingsPanel: (show) => set({ showSettingsPanel: show }),
 
     pressKey: (keyIndex) => set((state) => {

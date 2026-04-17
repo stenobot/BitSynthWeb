@@ -5,7 +5,7 @@ import './PitchControl.css'
 
 export function PitchControl() {
   const { masterPitch, setMasterPitch, pitchSnapEnabled } = useSynthStore()
-  const isDraggingRef = useRef(false)
+  const sliderRef = useRef<HTMLInputElement>(null)
   const justResetRef = useRef(false)
   const prevSnapEnabledRef = useRef(pitchSnapEnabled)
 
@@ -36,19 +36,24 @@ export function PitchControl() {
     setMasterPitch(pitch)
   }
 
-  const handlePointerDown = () => {
-    isDraggingRef.current = true
-    const onPointerUp = () => {
-      if (isDraggingRef.current) {
-        isDraggingRef.current = false
-        const { pitchSnapEnabled: snapEnabled } = useSynthStore.getState()
-        if (snapEnabled) {
-          justResetRef.current = true
-          setMasterPitch(1.0)
+  const handlePointerUp = () => {
+    const { pitchSnapEnabled: snapEnabled } = useSynthStore.getState()
+    if (snapEnabled) {
+      // Defer to the next animation frame so the browser fully releases its
+      // internal touch-tracking state on the range input before we update the
+      // value. Without this, mobile browsers ignore the programmatic value
+      // change and the thumb doesn't visually snap back until the next
+      // unrelated re-render.
+      requestAnimationFrame(() => {
+        justResetRef.current = true
+        setMasterPitch(1.0)
+        // Also set the DOM value directly as a belt-and-suspenders guarantee
+        // in case React's batched re-render is still delayed.
+        if (sliderRef.current) {
+          sliderRef.current.value = '0'
         }
-      }
+      })
     }
-    window.addEventListener('pointerup', onPointerUp, { once: true })
   }
 
   const semitones = Math.log2(masterPitch) * 12
@@ -57,13 +62,14 @@ export function PitchControl() {
   return (
     <div className="pitch-control">
       <input
+        ref={sliderRef}
         type="range"
         min="-1"
         max="1"
         step="0.01"
         value={Math.log2(masterPitch)}
         onChange={handlePitchChange}
-        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
         className="pitch-control__slider"
       />
       <span className="pitch-control__value">Pitch: {displayPitch}</span>

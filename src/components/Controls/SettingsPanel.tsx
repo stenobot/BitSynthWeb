@@ -3,7 +3,7 @@ import { restoreDefaultPresets } from '../../store/presets'
 import './SettingsPanel.css'
 
 export function SettingsPanel() {
-  const { experimentalKeyboard, setExperimentalKeyboard, pitchSnapEnabled, setPitchSnapEnabled, setShowSettingsPanel, applyPreset } = useSynthStore()
+  const { experimentalKeyboardPortrait, setExperimentalKeyboardPortrait, experimentalKeyboardLandscape, setExperimentalKeyboardLandscape, pitchSnapEnabled, setPitchSnapEnabled, setShowSettingsPanel, applyPreset } = useSynthStore()
 
   return (
     <div className="settings-overlay" onClick={() => setShowSettingsPanel(false)}>
@@ -23,12 +23,24 @@ export function SettingsPanel() {
         <div className="settings-panel__body">
           <label className="settings-panel__toggle">
             <span className="settings-panel__label">
-              Experimental keyboard
-              <span className="settings-panel__sublabel">Unique layouts for phone in portrait &amp; landscape</span>
+              Experimental keyboard (portrait)
+              <span className="settings-panel__sublabel">Unique S-shaped layout for phone in portrait</span>
             </span>
             <div
-              className={`settings-panel__switch ${experimentalKeyboard ? 'settings-panel__switch--on' : ''}`}
-              onClick={() => setExperimentalKeyboard(!experimentalKeyboard)}
+              className={`settings-panel__switch ${experimentalKeyboardPortrait ? 'settings-panel__switch--on' : ''}`}
+              onClick={() => setExperimentalKeyboardPortrait(!experimentalKeyboardPortrait)}
+            >
+              <div className="settings-panel__switch-thumb" />
+            </div>
+          </label>
+          <label className="settings-panel__toggle">
+            <span className="settings-panel__label">
+              Experimental keyboard (landscape)
+              <span className="settings-panel__sublabel">Unique split layout for phone in landscape</span>
+            </span>
+            <div
+              className={`settings-panel__switch ${experimentalKeyboardLandscape ? 'settings-panel__switch--on' : ''}`}
+              onClick={() => setExperimentalKeyboardLandscape(!experimentalKeyboardLandscape)}
             >
               <div className="settings-panel__switch-thumb" />
             </div>
