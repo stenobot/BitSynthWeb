@@ -29,75 +29,81 @@ export function SettingsPanel() {
           </button>
         </div>
         <div className="settings-panel__body">
-          <label className="settings-panel__toggle">
-            <span className="settings-panel__label">
-              Experimental keyboard (portrait)
-              <span className="settings-panel__sublabel">Unique S-shaped layout for phone in portrait</span>
-            </span>
-            <div
-              className={`settings-panel__switch ${experimentalKeyboardPortrait ? 'settings-panel__switch--on' : ''}`}
-              onClick={() => setExperimentalKeyboardPortrait(!experimentalKeyboardPortrait)}
-            >
-              <div className="settings-panel__switch-thumb" />
-            </div>
-          </label>
-          <label className="settings-panel__toggle">
-            <span className="settings-panel__label">
-              Experimental keyboard (landscape)
-              <span className="settings-panel__sublabel">Unique split layout for phone in landscape</span>
-            </span>
-            <div
-              className={`settings-panel__switch ${experimentalKeyboardLandscape ? 'settings-panel__switch--on' : ''}`}
-              onClick={() => setExperimentalKeyboardLandscape(!experimentalKeyboardLandscape)}
-            >
-              <div className="settings-panel__switch-thumb" />
-            </div>
-          </label>
-          <label className="settings-panel__toggle">
-            <span className="settings-panel__label">
-              Pitch lock
-              <span className="settings-panel__sublabel">Snap pitch back to normal on release</span>
-            </span>
-            <div
-              className={`settings-panel__switch ${pitchSnapEnabled ? 'settings-panel__switch--on' : ''}`}
-              onClick={() => setPitchSnapEnabled(!pitchSnapEnabled)}
-            >
-              <div className="settings-panel__switch-thumb" />
-            </div>
-          </label>
-          <label className="settings-panel__toggle">
-            <span className="settings-panel__label">
-              Show 8-bit panel
-            </span>
-            <div
-              className={`settings-panel__switch ${showEightBitPanel ? 'settings-panel__switch--on' : ''}`}
-              onClick={() => setShowEightBitPanel(!showEightBitPanel)}
-            >
-              <div className="settings-panel__switch-thumb" />
-            </div>
-          </label>
-          <label className="settings-panel__toggle">
-            <span className="settings-panel__label">
-              Show synth panel
-            </span>
-            <div
-              className={`settings-panel__switch ${showSynthPanel ? 'settings-panel__switch--on' : ''}`}
-              onClick={() => setShowSynthPanel(!showSynthPanel)}
-            >
-              <div className="settings-panel__switch-thumb" />
-            </div>
-          </label>
-          <label className="settings-panel__toggle">
-            <span className="settings-panel__label">
-              Show effects panel
-            </span>
-            <div
-              className={`settings-panel__switch ${showEffectsPanel ? 'settings-panel__switch--on' : ''}`}
-              onClick={() => setShowEffectsPanel(!showEffectsPanel)}
-            >
-              <div className="settings-panel__switch-thumb" />
-            </div>
-          </label>
+          <div className="settings-panel__section">
+            <h3 className="settings-panel__section-title">Experimental Keyboards</h3>
+            <label className="settings-panel__toggle">
+              <span className="settings-panel__label">
+                S-shaped keyboard (portrait)
+              </span>
+              <div
+                className={`settings-panel__switch ${experimentalKeyboardPortrait ? 'settings-panel__switch--on' : ''}`}
+                onClick={() => setExperimentalKeyboardPortrait(!experimentalKeyboardPortrait)}
+              >
+                <div className="settings-panel__switch-thumb" />
+              </div>
+            </label>
+            <label className="settings-panel__toggle">
+              <span className="settings-panel__label">
+                Mirror split keyboard (landscape)
+              </span>
+              <div
+                className={`settings-panel__switch ${experimentalKeyboardLandscape ? 'settings-panel__switch--on' : ''}`}
+                onClick={() => setExperimentalKeyboardLandscape(!experimentalKeyboardLandscape)}
+              >
+                <div className="settings-panel__switch-thumb" />
+              </div>
+            </label>
+          </div>
+          <div className="settings-panel__section">
+            <h3 className="settings-panel__section-title">Pitch</h3>
+            <label className="settings-panel__toggle">
+              <span className="settings-panel__label">
+                Snap pitch slider back to normal
+              </span>
+              <div
+                className={`settings-panel__switch ${pitchSnapEnabled ? 'settings-panel__switch--on' : ''}`}
+                onClick={() => setPitchSnapEnabled(!pitchSnapEnabled)}
+              >
+                <div className="settings-panel__switch-thumb" />
+              </div>
+            </label>
+          </div>
+          <div className="settings-panel__section">
+            <h3 className="settings-panel__section-title">Panels</h3>
+            <label className="settings-panel__toggle">
+              <span className="settings-panel__label">
+                Show 8-bit controls
+              </span>
+              <div
+                className={`settings-panel__switch ${showEightBitPanel ? 'settings-panel__switch--on' : ''}`}
+                onClick={() => setShowEightBitPanel(!showEightBitPanel)}
+              >
+                <div className="settings-panel__switch-thumb" />
+              </div>
+            </label>
+            <label className="settings-panel__toggle">
+              <span className="settings-panel__label">
+                Show synth controls
+              </span>
+              <div
+                className={`settings-panel__switch ${showSynthPanel ? 'settings-panel__switch--on' : ''}`}
+                onClick={() => setShowSynthPanel(!showSynthPanel)}
+              >
+                <div className="settings-panel__switch-thumb" />
+              </div>
+            </label>
+            <label className="settings-panel__toggle">
+              <span className="settings-panel__label">
+                Show effects controls
+              </span>
+              <div
+                className={`settings-panel__switch ${showEffectsPanel ? 'settings-panel__switch--on' : ''}`}
+                onClick={() => setShowEffectsPanel(!showEffectsPanel)}
+              >
+                <div className="settings-panel__switch-thumb" />
+              </div>
+            </label>
+          </div>
           <button
             className="settings-panel__restore-btn"
             onClick={() => { restoreDefaultPresets(); applyPreset(0); setShowSettingsPanel(false) }}
